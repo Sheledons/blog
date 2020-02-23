@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    <!-- 默认配置先不用管，如果没有指定则使用这个配置 -->
+    <default-config>
+        <property name="user">root</property>
+        <property name="password">123456</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/travel</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="checkoutTimeout">30000</property>
+        <!--请求连接的最长时间，3秒过后还没有连接，抛出异常-->
+        <property name="idleConnectionTestPeriod">30</property>
+        <property name="initialPoolSize">20</property>
+        <!-- 初始化创建连接对象数量 -->
+        <property name="maxIdleTime">30</property>
+        <property name="maxPoolSize">100</property>
+        <!-- 连接池中最大连接对象 -->
+        <property name="minPoolSize">2</property>
+        <property name="maxStatements">200</property>
+    </default-config>
+    
+    <!-- 自定义命名的配置,可以通过方法调用实现 -->
+    <named-config name="test">
+        <property name="user">Xiaopengwei</property>
+        <property name="password">123456</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/Xiaopengwei</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <!-- 如果池中数据连接不够时一次增长多少个 -->
+        <property name="acquireIncrement">5</property>
+        <!-- 初始化数据库连接池时连接的数量 -->
+        <property name="initialPoolSize">20</property>
+        <!-- 数据库连接池中的最大的数据库连接数 -->
+        <property name="maxPoolSize">25</property>
+        <!-- 数据库连接池中的最小的数据库连接数 -->
+        <property name="minPoolSize">5</property>
+    </named-config>
+</c3p0-config>

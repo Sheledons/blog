@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+body{
+	background-color: #D3D3D3;
+}
+.main{
+	width: 300px;
+	margin-top: 250px;
+	margin-right: auto;
+	margin-left: auto;
+}
+h1{
+	text-align: center;
+}
+input{
+	width: 150px;
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
+	padding-bottom:10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 10px;
+	margin-bottom: 10px;
+
+}
+.submit{
+	background-color: 	#1E90FF;
+    width: 150px;
+    display: block;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+a{
+	text-align: center;
+	display: block;
+	text-decoration: none;
+	color: #1E90FF;
+}
+.error-msg{
+	width: 130px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 10px;
+	color: red;
+}

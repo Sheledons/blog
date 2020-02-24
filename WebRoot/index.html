@@ -138,6 +138,7 @@
 				Sheledon
 			</div>
 			<script type="text/javascript">
+				var uid;
 				$.get("userInfoServlet",{},function(info){
 				    console.log(info.flag);
 					if(info.flag==false){
@@ -146,6 +147,7 @@
 					}else{
 					    console.log("2");
 					    console.log(info.data.name);
+					    uid=info.data.uid;
 						$(".name").html(info.data.name);
 						$(".headImage").attr("src",info.data.imageUrl);
 					}
@@ -153,8 +155,13 @@
 			</script>
 			<div class="summaryNumber">
 				<div>
-					<div style="text-align: center;">3</div>
-					<div>日志</div>
+					<div id="anumber" style="text-align: center;">3</div>
+					<div >日志</div>
+					<script type="text/javascript">
+						$.post("articleNumberServlet",{"uid":uid},function(number){
+							$("#anumber").html(number);
+						})
+					</script>
 				</div>
 				<div>
 					<div style="text-align: center;">4</div>
@@ -187,7 +194,7 @@
 				</div>
 				<div class="bottom">
 					<div class="title">阅读排行</div>
-					<div class="content">
+<!-- 				<div class="content">
 						<span>java</span>
 						<span class="number" style="padding-left: 15px">2</span>
 					</div>
@@ -198,7 +205,16 @@
 					<div class="content">
 						<span>java</span>
 						<span class="number" style="padding-left: 15px">2</span>
-					</div>
+					</div> -->
+					<script type="text/javascript">
+						$.get("articleByTimesServlet",{"uid":uid},function(info){
+							if(info.flag==false){
+								$("bottom").html("<div class='title'>阅读排行</div>"+"<div class='content'>您还木有文章哦！</div>");
+							}else{
+								//添加文章内容
+							}
+						})
+					</script>
 				</div>
 				<div class="bottom">
 					<div class="title" style="margin-bottom: 20px">标签</div>

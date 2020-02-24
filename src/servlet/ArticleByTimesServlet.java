@@ -1,14 +1,19 @@
 package servlet;
-
+import domain.ResultInfo;
+import domain.Article;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ArticleContentServlet extends HttpServlet {
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import service.ArticleService;
+public class ArticleByTimesServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -22,20 +27,19 @@ public class ArticleContentServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.print("    This is ");
-		out.print(this.getClass());
-		out.println(", using the GET method");
-		out.println("  </BODY>");
-		out.println("</HTML>");
-		out.flush();
-		out.close();
+		request.setCharacterEncoding("utf-8");
+		ArticleService service=new ArticleService();
+		List<Article> list=service.getArticleByTimes(0);
+		ResultInfo info=new ResultInfo();
+		if(list==null){
+			info.setFlag(false);
+		}else{
+			info.setData(list);
+			info.setFlag(true);
+		}
+		ObjectMapper mapper=new ObjectMapper();
+		response.setContentType("application/json;charset=utf-8");
+		mapper.writeValue(response.getOutputStream(),info);
 	}
 
 }

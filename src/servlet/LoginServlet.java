@@ -33,8 +33,7 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("dopost");
 		req.setCharacterEncoding("utf-8");
 		User user=new User();
-		Map<String,String[]> map=req.getParameterMap();
-		
+		Map<String,String[]> map=req.getParameterMap();	
 		try {
 			BeanUtils.populate(user,map);//javaπ§æﬂ¿‡ BeanUtils
 		} catch (IllegalAccessException e) {

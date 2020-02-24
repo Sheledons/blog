@@ -32,6 +32,7 @@ public class UserInfoServlet extends HttpServlet {
 		if(user==null){//Î´µÇÂ¼
 			rinfo.setFlag(false);
 		}else{
+			
 			rinfo.setFlag(true);
 			rinfo.setData(user);
 		}

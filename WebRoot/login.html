@@ -9,7 +9,8 @@
   $(function(){
     $(".submit").click(function(){
       $.post("loginServlet",$(".loginInfo").serialize(),function(data){
-          console.log("data:  "+data);
+         console.log(typeof data);
+         console.log("data.flag :"+data.flag);
         if(data.flag){
           location.href="index.html"; //跳转登录成功页面
         }

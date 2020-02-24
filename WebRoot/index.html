@@ -141,14 +141,13 @@
 				$.get("userInfoServlet",{},function(info){
 				    console.log(info.flag);
 					if(info.flag==false){
-					console.log("1");
+					    console.log("1");
 						location.href="login.html";
 					}else{
 					    console.log("2");
-					    
 					    console.log(info.data.name);
-					//	$(".name").html(data.name);
-					//	$(".headImage").attr("src",data.imageUrl);
+						$(".name").html(info.data.name);
+						$(".headImage").attr("src",info.data.imageUrl);
 					}
 				})
 			</script>

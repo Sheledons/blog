@@ -120,7 +120,12 @@
 		}
 	</style>
 	<script type="text/javascript">
-		
+		$(function(){
+
+		})//获取用户的日志数量
+		$(function(){
+
+		})//获取用户的分类数量，并且将分类栏的内容填入		
 	</script>
 </head>
 <body style="background-color:#DCDCDC">
@@ -128,10 +133,25 @@
 		<div>
 			<h3 style="color:#1E90FF;text-align: center;margin-bottom: 5px">Change Word</h3>
 			<h5 style="text-align: center;color:#C0C0C0">落日归山海，陪伴成告白</h5>
-			<img src="C:\Users\白小白\Desktop\截图\狮子.jpg" class="headImage">
+			<img src="" class="headImage">
 			<div class="name">
 				Sheledon
 			</div>
+			<script type="text/javascript">
+				$.get("userInfoServlet",{},function(info){
+				    console.log(info.flag);
+					if(info.flag==false){
+					console.log("1");
+						location.href="login.html";
+					}else{
+					    console.log("2");
+					    
+					    console.log(info.data.name);
+					//	$(".name").html(data.name);
+					//	$(".headImage").attr("src",data.imageUrl);
+					}
+				})
+			</script>
 			<div class="summaryNumber">
 				<div>
 					<div style="text-align: center;">3</div>

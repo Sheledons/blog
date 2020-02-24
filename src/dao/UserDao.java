@@ -14,11 +14,12 @@ public class UserDao implements UserDaoInter {
 		try{
 			ru=template.queryForObject(sql,new BeanPropertyRowMapper<User>(User.class),u.getName(),u.getPwd());
 			//BeanPropertyRowMapper 是一个实现的了封装javaBean的接口,我们只需要传入要封装的javaBean,和字节码文件的类型（User.class）
+			System.out.println("url  "+ru.getImageUrl());
+			System.out.println("uid  "+ru.getUid());
 		}
 		catch(DataAccessException e){
 			System.out.println("DataAcess");
 		}
-		System.out.println("UserDao");
 		return ru;
 	}
 

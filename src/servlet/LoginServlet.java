@@ -49,12 +49,14 @@ public class LoginServlet extends HttpServlet {
 		UserService service=new UserService();
 		ResultInfo info=new ResultInfo();
 		ObjectMapper mapper=new ObjectMapper();
-		if(service.login(user)==null){//验证失败
+		User ruser=service.login(user);
+		if(ruser==null){//验证失败
 			info.setFlag(false);
 		}else{//验证成功
 			info.setFlag(true);
 			HttpSession session=req.getSession();
-			session.setAttribute("user",user);
+			ruser.setPwd("");
+			session.setAttribute("user",ruser);
 			resp.setContentType("application/json;charset=utf-8");
 		}
 		mapper.writeValue(resp.getOutputStream(),info);

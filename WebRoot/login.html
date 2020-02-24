@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="css/login.css">
   <script type="text/javascript">
   $(function(){
-    $(".sub").click(function(){
+    $(".submit").click(function(){
       $.post("loginServlet",$(".loginInfo").serialize(),function(data){
           console.log("data:  "+data);
         if(data.flag){

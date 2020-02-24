@@ -4,7 +4,11 @@ public class User {
 	private int uid;
 	private String name;
 	private String pwd;
+	private String imageUrl;
 	public User(){
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	public void setUid(int uid) {
 		this.uid = uid;
@@ -23,6 +27,9 @@ public class User {
 	}
 	public int getUid() {
 		return uid;
+	}
+	public String getImageUrl() {
+		return imageUrl;
 	}
 	@Override
 	public String toString() {

@@ -157,10 +157,11 @@
 					</script>
 				</div>
 				<div>
-					<div style="text-align: center;" id="cnumber"></div>
+					<div style="text-align: center;" id="cnumber">0</div>
 					<div >分类</div>
 					<script type="text/javascript">
-						$.get("classifyNumberServlet",function(info){
+						$.get("cnumberServlet",function(info){
+							console.log('cnumber  '+info);
 							$("#cnumber").html(info);
 						})
 					</script>
@@ -190,14 +191,15 @@
 						<span class="number" style="padding-left: 15px">2</span>
 					</div> -->
 					<script type="text/javascript">
-						$.get("classifyDetailServlet",function(info){
+						$.get("cdetailServlet",function(info){
+							console.log('c  '+info);
 							var base="<div class='title'>分类</div>";
 							if(info==null){
 								base+='<div class="content"><span>您木有分类！</span></div>';
 							}else{
 								for(var i=0;i<info.length;i++){
-									base+='<div class="content"><span>'+info.cname+'</span>';
-									base+='<span class="number" style="padding-left: 15px">'+info.cnumber+'</span>'
+									base+='<div class="content"><span>'+info[0].cname+'</span>';
+									base+='<span class="number" style="padding-left: 15px">'+info[0].cnumber+'</span>'
 									if(i==3){
 										break;
 									}

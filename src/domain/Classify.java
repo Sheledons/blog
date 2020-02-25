@@ -4,8 +4,15 @@ public class Classify {
 	private int cid;
 	private int cnumber;
 	private String cname;
+	private int uid;
 	public Classify(){
 		
+	}
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+	public int getUid() {
+		return uid;
 	}
 	public int getCid() {
 		return cid;

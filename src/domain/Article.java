@@ -3,12 +3,19 @@ package domain;
 public class Article {
 	private int aid;
 	private int uid;
+	private String aname;
 	private String time;
 	private int viewTimes;
 	private String content;
 	private int cid;
 	public Article(){
 		
+	}
+	public void setAname(String aname) {
+		this.aname = aname;
+	}
+	public String getAname() {
+		return aname;
 	}
 	public int getAid() {
 		return aid;

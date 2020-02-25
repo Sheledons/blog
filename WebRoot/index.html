@@ -212,6 +212,15 @@
 								$("bottom").html("<div class='title'>阅读排行</div>"+"<div class='content'>您还木有文章哦！</div>");
 							}else{
 								//添加文章内容
+								var artList=info.data;
+								var html="<div class='title'>阅读排行</div>";
+								for(var i=0;i<artList;i++){
+									html+="<div class='content'>"+"<span>"+artList[i].aname+"</span><span class='number' style='padding-left:15px'>"+artList[i].viewTimes+"</span>"
+									if(i==2){
+										break;//最多显示三条
+									}
+								}
+								$("bottom").html(html);
 							}
 						})
 					</script>

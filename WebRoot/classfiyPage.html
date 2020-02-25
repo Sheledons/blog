@@ -56,8 +56,8 @@
 		}
 		.rightList{
 			width: 700px;
-			height: 500px;
-			border: 2px red solid;
+	/*		height: 500px;*/
+	/*		border: 2px red solid;*/
 			margin-top: 20px;
 			margin-right:200px;
 			display: inline-block;
@@ -72,6 +72,55 @@
 		    padding-top: 10px;
 		    background-color: #F5F5F5;
 		    width: 250px;			
+		}
+		.cname{
+			color: black;
+			font-size:25px;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			padding-left: 50px;
+			background-color: #DCDCDC;
+		}
+		.cname>a{
+			text-decoration: none;
+			margin-left: 450px;
+			font-size: 18px;
+			color: #4682B4;
+		}
+		.aname{
+			padding-top: 20px;
+			text-align: center;
+			font-size: 20px;
+			color: #4682B4;
+			text-decoration: none;
+		}
+		.aname>a{
+			text-decoration: none;
+			color:  #4682B4;
+		}
+		.atime{
+			margin-left: 400px;
+		}
+		.pageNum{
+			background-color: #DCDCDC;
+/*			border: 2px #4682B4 solid;*/
+			font-size: 30px;
+		}
+		.pageNum>span{
+			margin-top: 20px;
+			margin-right: 10px;
+			background-color: #4682B4;
+			display: inline-block;
+			width: 30px;
+			text-align: center;
+			border: 2px solid #4682B4;
+		}
+		.pageNum>button{
+			background-color: #4682B4;
+			display: inline-block;
+			width: 60px;
+			height: 40px;
+			margin-top: 20px;
 		}
     </style>
 </head>
@@ -110,9 +159,71 @@
 	 	<div class="rightTitle">分类</div>
 	 	<!--异步获取分类信息的时候，将cid填入盒子中，然后分别异步获取文章-->
 	 	<!--每页的每个分类只显示一篇文章，点击全部才会显示一个分类的全部文章-->
-	 	<div>
-	 		 <
-	 	</div>
+	 	<!--display显示为none-->
+	 	<div class="rightContent">		
+	 	</div> 
+	 		<div class="pageNum">
+<!-- 	 		<span id="button">1</span>
+	 			<span>2</span>
+	 			<span>3</span>
+	 			<button style="margin-left: 380px"><<</button>
+	 			<button>>></button> -->
+	 		</div>		
+	 		<script type="text/javascript">
+	 			var pageNum;
+	 			//如果 pageNum 得不到数据，那么将请求放入 第一个get中
+	 			//获取分类数量
+	 			$.get("cnumberServlet",function(info){
+	 				pageNum=parseInt(info/4+0.5);
+	 				var base="";
+	 				for(var i=0;i<info;i++){
+	 					base+="<span id='button'>"+i+1+"</span>";
+	 				}
+	 				$("pageNum").html(base);
+	 			})
+	 			//展示第一页
+	 			$.get("cshowServlet",{locpage:1},function(info){
+	 				//后端代码，同时获取分类和属于分类的第一篇文章，拼接成json字符串，返回
+	 				var con="";
+	 				for(var i=0;i<4;i++){
+	 					con+='<div class="display"><div class="cname">'+info[0][i].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname"><a href="javascript:;">'+info[1][i].aname+'<br><span class="atime">'+info[1][i].time+'/</span><span>阅读次数：'+info[1][i].viewTimes+"</span>";
+	 				}
+	 				$(".rightContent").html(con);
+	 			})
+	 		</script>
+	 		<script type="text/javascript">
+	 			/*为页数元素绑定点击事件
+	 			1,点击发送异步get请求
+	 			2，点击变色事件*/
+	 			var pageButtons=document.querySelectorAll("#button");
+	 			for(var i=0;i<pageButtons.length;i++){
+	 				pageButtons[i].addEventListener("click",function(evet){
+	 					$.get("cshowServlet",{locpage:pageButtons[i].html},function(){
+	 						var con="";
+	 						for(var j=0;j<4;j++){
+	 							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname"><a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
+	 						}
+	 						$(".rightContent").html(con);
+	 					})
+	 				});
+	 				pageButtons[i].addEventListener("click",function(event){
+	 					for(var h=0;h<pageButtons.length;i++){
+	 						pageButtons[i].style.backgroundColor="#4682B4";
+	 					}
+	 					pageButtons[i].style.backgroundColor="white";
+	 				});
+	 			}
+	 		</script>
 	 </div>
+	 <script type="text/javascript">
+	 	/*
+	 	加载分类页面的时候，首先请求 分类的数量，依此生成页数，然后默认是第一页发送ajax请求，填入第一页的数据，
+	 	给每一个页面按钮绑定点击事件，当点击的时候，页码为参数，发送请求获得数据
+	 	*/
+	 	/*
+	 	为每个分类添加显示全部内容的按钮
+	 	*/
+
+	 </script>
 </body>
 </html>

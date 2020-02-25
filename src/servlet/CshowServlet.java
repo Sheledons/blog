@@ -7,15 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import domain.User;
-
-import service.ClassifyService;
-
-public class CnumberServlet extends HttpServlet {
+public class CshowServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -29,12 +22,20 @@ public class CnumberServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session=request.getSession();
-		User user=(User)session.getAttribute("user");
-		ClassifyService service=new ClassifyService();
-		int num=service.getClassifyNumber(user.getUid());
-		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
-		mapper.writeValue(response.getOutputStream(),num);
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
+		out.println("<HTML>");
+		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+		out.println("  <BODY>");
+		out.print("    This is ");
+		out.print(this.getClass());
+		out.println(", using the GET method");
+		out.println("  </BODY>");
+		out.println("</HTML>");
+		out.flush();
+		out.close();
 	}
+
 }

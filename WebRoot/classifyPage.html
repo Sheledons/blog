@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>classifyPage</title>
+	<script src="js/jquery-3.4.1.js"></script>
 	<style type="text/css">
 		div{
 			vertical-align: top;
@@ -175,11 +176,14 @@
 	 			//获取分类数量
 	 			$.get("cnumberServlet",function(info){
 	 				pageNum=parseInt(info/4+0.5);
+	 				if(info==1){
+	 					pageNum=1;
+	 				}
 	 				var base="";
-	 				for(var i=0;i<info;i++){
+	 				for(var i=0;i<pageNum;i++){
 	 					base+="<span id='button'>"+i+1+"</span>";
 	 				}
-	 				$("pageNum").html(base);
+	 				$(".pageNum").html(base);
 	 			})
 	 			//展示第一页
 	 			$.get("cshowServlet",{locpage:1},function(info){

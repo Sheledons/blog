@@ -20,4 +20,9 @@ public class ClassifyService implements ClassifyServiceInter {
 		return dao.getClassify(uid);
 	}
 
+	@Override
+	public List<Classify> getClassifyLimit(int uid,int locpage) {
+		ClassifyDao dao=new ClassifyDao();
+		return dao.getClassifyLimit(uid, locpage);
+	}
 }

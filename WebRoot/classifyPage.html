@@ -107,7 +107,7 @@
 /*			border: 2px #4682B4 solid;*/
 			font-size: 30px;
 		}
-		.pageNum>span{
+		.pageNum>a{
 			margin-top: 20px;
 			margin-right: 10px;
 			background-color: #4682B4;
@@ -115,6 +115,7 @@
 			width: 30px;
 			text-align: center;
 			border: 2px solid #4682B4;
+			text-decoration: none;
 		}
 		.pageNum>button{
 			background-color: #4682B4;
@@ -181,42 +182,59 @@
 	 				}
 	 				var base="";
 	 				for(var i=0;i<pageNum;i++){
-	 					base+="<span id='button'>"+i+1+"</span>";
+	 					base+="<a href='javascript:;' id='button'>"+i+1+"</a>";
 	 				}
 	 				$(".pageNum").html(base);
 	 			})
 	 			//展示第一页
-	 			$.get("cshowServlet",{locpage:1},function(info){
-	 				//后端代码，同时获取分类和属于分类的第一篇文章，拼接成json字符串，返回
-	 				var con="";
-	 				for(var i=0;i<4;i++){
-	 					con+='<div class="display"><div class="cname">'+info[0][i].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname"><a href="javascript:;">'+info[1][i].aname+'<br><span class="atime">'+info[1][i].time+'/</span><span>阅读次数：'+info[1][i].viewTimes+"</span>";
-	 				}
-	 				$(".rightContent").html(con);
-	 			})
+				$.get("cshowServlet",{locpage:1},function(info){
+					var con="";
+					for(var j=0;j<info[0].length;j++){
+						con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">'
+						if(info[1][j]!=null){
+							con+='<a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
+						}else{
+							con+='<div class="aname">木有文章哦</div>';
+						}
+						if(j==3){
+							break;
+						}
+					}
+					$(".rightContent").html(con);
+				})
 	 		</script>
-	 		<script type="text/javascript">
+	        <script type="text/javascript">
 	 			/*为页数元素绑定点击事件
 	 			1,点击发送异步get请求
 	 			2，点击变色事件*/
 	 			var pageButtons=document.querySelectorAll("#button");
+	 			console.log(pageButtons);
 	 			for(var i=0;i<pageButtons.length;i++){
 	 				pageButtons[i].addEventListener("click",function(evet){
-	 					$.get("cshowServlet",{locpage:pageButtons[i].html},function(){
+	 					$.get("cshowServlet",{locpage:pageButtons[i].html},function(info){
 	 						var con="";
-	 						for(var j=0;j<4;j++){
-	 							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname"><a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
+	 						for(var j=0;j<info[0].length;j++){
+	 							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">'
+	 							if(info[1][j]!=null){
+	 								con+='<a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
+	 							}else{
+	 								con+='<div class="aname">木有文章哦</div>';
+	 							}
+	 							if(j==3){
+	 								break;
+	 							}
 	 						}
 	 						$(".rightContent").html(con);
 	 					})
 	 				});
 	 				pageButtons[i].addEventListener("click",function(event){
+	 				    console.log("buttonClick");
 	 					for(var h=0;h<pageButtons.length;i++){
 	 						pageButtons[i].style.backgroundColor="#4682B4";
 	 					}
 	 					pageButtons[i].style.backgroundColor="white";
 	 				});
-	 			}
+ 			    }			
 	 		</script>
 	 </div>
 	 <script type="text/javascript">

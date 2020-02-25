@@ -39,4 +39,17 @@ public class ClassifyDao implements ClassifyDaoInter {
 		return list;
 	}
 
+	@Override
+	public List<Classify> getClassifyLimit(int uid,int locpage) {
+		String sql="select * from classify where uid=? limit ?,4";
+		int param=4*locpage-4;
+		List<Classify> list=null;
+		try{
+			list=temp.query(sql,new BeanPropertyRowMapper<Classify>(Classify.class),uid,param);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

@@ -52,4 +52,17 @@ public class ArticleDao implements ArticleDaoInter{
 		return art;
 	}
 
+	@Override
+	public Article getArticleOne(int cid) {
+		// TODO Auto-generated method stub
+		String sql="select aname,time,viewTimes from article where cid=? order by aid DESC limit 1";
+		Article art=null;
+		try{
+			art=this.temp.queryForObject(sql,new BeanPropertyRowMapper<Article>(Article.class),cid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return art;
+	}
+
 }

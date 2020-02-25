@@ -6,4 +6,5 @@ public interface ArticleServiceInter {
 	public int getArticleNumber(int uid);
 	public List<Article> getArticleByTimes(int uid);
 	public List<Article> getArticleByCreate(int uid);
+	public Article getArticleOne(int cid);
 }

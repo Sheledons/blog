@@ -1,6 +1,8 @@
 package servlet;
 import domain.ResultInfo;
 import domain.Article;
+import domain.User;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,7 +32,14 @@ public class ArticleByTimesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		ArticleService service=new ArticleService();
-		List<Article> list=service.getArticleByTimes(0);
+		HttpSession session=request.getSession();
+		User user=(User)session.getAttribute("user");
+		if(user==null){
+			response.sendRedirect("login.html"); //÷ÿ∂®œÚ
+			return;
+		}
+		Integer uid=user.getUid();
+		List<Article> list=service.getArticleByTimes(uid);
 		ResultInfo info=new ResultInfo();
 		if(list==null){
 			info.setFlag(false);

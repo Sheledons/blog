@@ -60,7 +60,7 @@
 			padding-right: 30px;
 			margin-top: 50px;
 		}
-		.bottom{
+		.bottom,.bottomRead{
 			text-align: center;
 			width: 260px;
 		}
@@ -138,7 +138,6 @@
 				Sheledon
 			</div>
 			<script type="text/javascript">
-				var uid;
 				$.get("userInfoServlet",{},function(info){
 				    console.log(info.flag);
 					if(info.flag==false){
@@ -147,7 +146,6 @@
 					}else{
 					    console.log("2");
 					    console.log(info.data.name);
-					    uid=info.data.uid;
 						$(".name").html(info.data.name);
 						$(".headImage").attr("src",info.data.imageUrl);
 					}
@@ -158,7 +156,7 @@
 					<div id="anumber" style="text-align: center;">3</div>
 					<div >日志</div>
 					<script type="text/javascript">
-						$.post("articleNumberServlet",{"uid":uid},function(number){
+						$.get("articleNumberServlet",function(number){
 							$("#anumber").html(number);
 						})
 					</script>
@@ -192,8 +190,8 @@
 						<span class="number" style="padding-left: 15px">2</span>
 					</div>
 				</div>
-				<div class="bottom">
-					<div class="title">阅读排行</div>
+				<div class="bottomRead">
+<!-- 					<div class="title">阅读排行</div> -->
 <!-- 				<div class="content">
 						<span>java</span>
 						<span class="number" style="padding-left: 15px">2</span>
@@ -207,20 +205,21 @@
 						<span class="number" style="padding-left: 15px">2</span>
 					</div> -->
 					<script type="text/javascript">
-						$.get("articleByTimesServlet",{"uid":uid},function(info){
+						$.get("articleByTimesServlet",function(info){
 							if(info.flag==false){
 								$("bottom").html("<div class='title'>阅读排行</div>"+"<div class='content'>您还木有文章哦！</div>");
 							}else{
 								//添加文章内容
 								var artList=info.data;
 								var html="<div class='title'>阅读排行</div>";
-								for(var i=0;i<artList;i++){
-									html+="<div class='content'>"+"<span>"+artList[i].aname+"</span><span class='number' style='padding-left:15px'>"+artList[i].viewTimes+"</span>"
+								for(var i=0;i<artList.length;i++){
+									html+="<div class='content'>"+"<span>"+artList[i].aname+"</span><span class='number' style='padding-left:15px'>("+artList[i].viewTimes+")</span></div>"
 									if(i==2){
 										break;//最多显示三条
 									}
 								}
-								$("bottom").html(html);
+								console.log(html);
+								$(".bottomRead").html(html);
 							}
 						})
 					</script>

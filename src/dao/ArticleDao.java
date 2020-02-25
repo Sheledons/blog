@@ -1,8 +1,6 @@
 package dao;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,15 +11,18 @@ public class ArticleDao implements ArticleDaoInter{
 
 	@Override
 	public int getNumber(int uid) {
-		Integer number=null;
+		int number=0;
 		JdbcTemplate temp=new JdbcTemplate(C3p0Utils.getDataSource());
 		String sql="select count(aid) from article where uid=?";
 		try{
-			number=temp.queryForObject(sql,new BeanPropertyRowMapper<Integer>(Integer.class),uid);
+			number=temp.queryForObject(sql,Integer.class,uid);
 		}
 		catch(DataAccessException e){
 			e.printStackTrace();
+		}catch(NullPointerException e){
+			
 		}
+		System.out.println("anumber  "+number);
 		return number;
 	}
 

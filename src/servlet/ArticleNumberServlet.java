@@ -5,8 +5,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import domain.User;
 
 import service.ArticleService;
 public class ArticleNumberServlet extends HttpServlet {
@@ -21,11 +24,13 @@ public class ArticleNumberServlet extends HttpServlet {
 	 * @throws ServletException if an error occurred
 	 * @throws IOException if an error occurred
 	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		ArticleService service=new ArticleService();
-		int uid=Integer.parseInt(request.getParameter("uid"));
+		HttpSession session=request.getSession();
+		User user=(User)session.getAttribute("user");
+		Integer uid=user.getUid();
 		int number=service.getArticleNumber(uid);
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");

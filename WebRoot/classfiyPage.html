@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>classifyPage</title>
+	<style type="text/css">
+		div{
+			vertical-align: top;
+		}
+		.leftList{
+			display: inline-block;
+		    margin-left: 300px;
+		    margin-right: 250px;
+		    width: 300px;
+		    border: red 2px solid;
+		}
+		.headImage{
+			display: block;
+			border-radius: 50%;
+			border: 1px solid blue;
+			margin-right: auto;
+			margin-left: auto;
+			width: 150px;
+			height: 150px;
+		}
+		.name{
+			text-align: center;
+			color: #C0C0C0;
+			font-size: 25px;
+			font-weight: bold;
+		}
+		.summaryName a{
+			background-color: 	#FFFFFF;
+			text-decoration: none;
+			color:#4682B4;
+			text-align: center;
+			margin-left: 110px;
+		}
+		.summaryName>div{
+			margin-left: 70px;
+			margin-top: 10px;
+			padding-left: 5px;
+			padding-bottom: 5px;
+			padding-right: 5px;
+			padding-top: 5px;
+			background-color:	#F5F5F5;
+			width: 250px;
+		}	
+		.rightTitle{
+			background-color:#4682B4;
+			text-align: center;
+			width: 700px;
+			height: 40px;
+			padding-top: 25px;
+			color: white;
+		}
+		.rightList{
+			width: 700px;
+			height: 500px;
+			border: 2px red solid;
+			margin-top: 20px;
+			margin-right:200px;
+			display: inline-block;
+			background-color: white;
+		}
+		.summaryName>div{
+			margin-left: 22px;
+		    margin-top: 15px;
+		    padding-left: 5px;
+		    padding-bottom: 10px;
+		    padding-right: 5px;
+		    padding-top: 10px;
+		    background-color: #F5F5F5;
+		    width: 250px;			
+		}
+    </style>
+</head>
+<body style="background-color:#DCDCDC">
+	<div class="leftList">
+			<div>
+				<h3 style="color:#4682B4;text-align: center;margin-bottom: 5px">Change Word</h3>
+				<h5 style="text-align: center;color:#C0C0C0">落日归山海，陪伴成告白</h5>
+				<img src="" class="headImage">
+				<div class="name">
+					Sheledon
+				</div>
+				<script type="text/javascript">
+					$.get("userInfoServlet",{},function(info){
+					    console.log(info.flag);
+						if(info.flag==false){
+						    console.log("1");
+							location.href="login.html";
+						}else{
+						    console.log("2");
+						    console.log(info.data.name);
+							$(".name").html(info.data.name);
+							$(".headImage").attr("src",info.data.imageUrl);
+						}
+					})
+				</script>
+	            <div class="summaryName">
+					<div><a href="">首页</a></div>
+					<div><a href="">分类</a></div>
+					<div><a href="">标签</a></div>
+					<div><a href="" style="margin-left:94px">关于博主</a></div>
+				</div>
+	        </div>
+	 </div>
+	 <div class="rightList">
+	 	<div class="rightTitle">分类</div>
+	 	<!--异步获取分类信息的时候，将cid填入盒子中，然后分别异步获取文章-->
+	 	<!--每页的每个分类只显示一篇文章，点击全部才会显示一个分类的全部文章-->
+	 	<div>
+	 		 <
+	 	</div>
+	 </div>
+</body>
+</html>

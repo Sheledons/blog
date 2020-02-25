@@ -26,7 +26,6 @@ public class ArticleNumberServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		ArticleService service=new ArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");

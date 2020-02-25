@@ -1,9 +1,8 @@
 package servlet;
-import domain.ResultInfo;
-import domain.Article;
-import domain.User;
 
 import java.io.IOException;
+
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,9 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import service.ArticleService;
-public class ArticleByTimesServlet extends HttpServlet {
+import domain.Article;
+import domain.User;
+public class ArticleByCreateServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -33,22 +33,15 @@ public class ArticleByTimesServlet extends HttpServlet {
 		ArticleService service=new ArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
+		List<Article> list=null;
 		if(user==null){
-			response.sendRedirect("login.html"); //÷ÿ∂®œÚ
+			response.sendRedirect("login.html");
 			return;
 		}
-		Integer uid=user.getUid();
-		List<Article> list=service.getArticleByTimes(uid);
-		ResultInfo info=new ResultInfo();
-		if(list==null){
-			info.setFlag(false);
-		}else{
-			info.setData(list);
-			info.setFlag(true);
-		}
+		list=service.getArticleByCreate(user.getUid());
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");
-		mapper.writeValue(response.getOutputStream(),info);
+		mapper.writeValue(response.getOutputStream(),list);
 	}
 
 }

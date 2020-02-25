@@ -8,6 +8,13 @@ public class Article {
 	private int viewTimes;
 	private String content;
 	private int cid;
+	private String cname;
+	public String getCname() {
+		return cname;
+	}
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
 	public Article(){
 		
 	}

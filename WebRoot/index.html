@@ -60,7 +60,7 @@
 			padding-right: 30px;
 			margin-top: 50px;
 		}
-		.bottom,.bottomRead{
+		.bottomClassify,.bottomRead{
 			text-align: center;
 			width: 260px;
 		}
@@ -118,15 +118,10 @@
 			color:  #1E90FF;
 			text-decoration: none;
 		}
+		.rightContent{
+            border-bottom: #DCDCDC 2px solid;
+        }
 	</style>
-	<script type="text/javascript">
-		$(function(){
-
-		})//获取用户的日志数量
-		$(function(){
-
-		})//获取用户的分类数量，并且将分类栏的内容填入		
-	</script>
 </head>
 <body style="background-color:#DCDCDC">
 	<div class="leftList">
@@ -153,7 +148,7 @@
 			</script>
 			<div class="summaryNumber">
 				<div>
-					<div id="anumber" style="text-align: center;">3</div>
+					<div id="anumber" style="text-align: center;"></div>
 					<div >日志</div>
 					<script type="text/javascript">
 						$.get("articleNumberServlet",function(number){
@@ -162,8 +157,13 @@
 					</script>
 				</div>
 				<div>
-					<div style="text-align: center;">4</div>
+					<div style="text-align: center;" id="cnumber"></div>
 					<div >分类</div>
+					<script type="text/javascript">
+						$.get("classifyNumberServlet",function(info){
+							$("#cnumber").html(info);
+						})
+					</script>
 				</div>
 				<div>
 					<div style="text-align: center;">5</div>
@@ -173,10 +173,10 @@
 					<div><a href="">首页</a></div>
 					<div><a href="">分类</a></div>
 					<div><a href="">标签</a></div>
-					<div><a href="">关于</a></div>
+					<div><a href="" style="margin-left:94px">关于博主</a></div>
 				</div>
-				<div class="bottom">
-					<div class="title">分类</div>
+				<div class="bottomClassify">
+<!-- 					<div class="title">分类</div>
 					<div class="content">
 						<span>java</span>
 						<span class="number" style="padding-left: 15px">2</span>
@@ -188,7 +188,24 @@
 					<div class="content">
 						<span>java</span>
 						<span class="number" style="padding-left: 15px">2</span>
-					</div>
+					</div> -->
+					<script type="text/javascript">
+						$.get("classifyDetailServlet",function(info){
+							var base="<div class='title'>分类</div>";
+							if(info==null){
+								base+='<div class="content"><span>您木有分类！</span></div>';
+							}else{
+								for(var i=0;i<info.length;i++){
+									base+='<div class="content"><span>'+info.cname+'</span>';
+									base+='<span class="number" style="padding-left: 15px">'+info.cnumber+'</span>'
+									if(i==3){
+										break;
+									}
+								}
+							}
+							$(".bottomClassify").html(base);
+						})
+					</script>
 				</div>
 				<div class="bottomRead">
 <!-- 					<div class="title">阅读排行</div> -->
@@ -247,8 +264,32 @@
 		</div>
 	</div>
 	<div class="rightList">
-		<div class="rightTitle">文章</div>
-		<div class="rightContent"> <!--一个div是一篇文章-->
+		<script type="text/javascript">
+			$.get("articleByCreateServlet",function(info){
+				var base='<div class="rightTitle">文章</div>';
+				if(info==null){
+					base+="<div class='rightContent'><div class='articleTitle'>您还木有文章哦！</div></div>";
+					base+="<div><a href='#' style='text-decoration:none;color:#1E90FF;'>点击此处添加文章<div>"
+				}else{
+					for(var i=0;i<info.length;i++){
+						base+='<div class="rightContent"><div class="articleTitle">'+info[i].aname+'</div>'
+						base+='<div class="rightSummary"><span>'+info[i].time+'&nbsp;&nbsp|&nbsp;&nbsp</span>';
+						base+='<span>'+info[i].cname+"&nbsp;&nbsp|&nbsp;&nbsp</span>";
+						base+="<span>阅读次数:"+info[i].viewTimes+"</span></div>";
+						base+="<div><p>"+info[i].content.substring(0,30)+"</p></div>";
+						base+="<div><a href=''>阅读全文</a></div></div>"
+						//阅读全文，以get方式发送请求，参数为aid
+						if(i==3){
+							break;//最多显示3条
+						}
+					}
+					console.log(base);
+					$(".rightList").html(base);
+				}
+			})
+		</script>
+<!-- 		<div class="rightTitle">文章</div>
+		<div class="rightContent">
 			<div class="articleTitle">一个新年的问候</div>
 			<div class="rightSummary">
 				<span>2018-09-18 |</span>
@@ -260,7 +301,7 @@
 				<a href="">阅读全文</a>
 			</div>
 		</div>
-		<div class="rightContent"> <!--一个div是一篇文章-->
+		<div class="rightContent"> 
 			<div class="articleTitle">一个新年的问候</div>
 			<div class="rightSummary">
 				<span>2018-09-18 |</span>
@@ -272,7 +313,7 @@
 				<a href="">阅读全文</a>
 			</div>
 		</div>
-		<div class="rightContent"> <!--一个div是一篇文章-->
+		<div class="rightContent"> 
 			<div class="articleTitle">一个新年的问候</div>
 			<div class="rightSummary">
 				<span>2018-09-18 |</span>
@@ -284,7 +325,7 @@
 				<a href="">阅读全文</a>
 			</div>
 		</div>
-		<div class="rightContent"> <!--一个div是一篇文章-->
+		<div class="rightContent"> 
 			<div class="articleTitle">一个新年的问候</div>
 			<div class="rightSummary">
 				<span>2018-09-18 |</span>
@@ -295,7 +336,7 @@
 			<div>
 				<a href="">阅读全文</a>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </body>
 </html>

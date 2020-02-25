@@ -5,6 +5,13 @@ public class User {
 	private String name;
 	private String pwd;
 	private String imageUrl;
+	private String classify;
+	public String getClassify() {
+		return classify;
+	}
+	public void setClassify(String classify) {
+		this.classify = classify;
+	}
 	public User(){
 	}
 	public void setImageUrl(String imageUrl) {

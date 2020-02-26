@@ -76,12 +76,12 @@
   //创建分类
   $(".createClassify").click(function(){
     if($("#newc").val()!=null){
-      $.get("createClassifyServlet",{cname:$("#newc").val()},function(info){
+      $.post("createClassifyServlet",{cname:$("#newc").val()},function(info){
         //返回 cid,cname
         var sel=document.querySelector(".classify");
         var option=document.createElement("option");
-        option.id=info.cid;
-        option.innerHTML=info.cname;
+        option.id=info.data.cid;
+        option.innerHTML=info.data.cname;
         sel.insertBefore(option,sel.children[0]);
       })
     }

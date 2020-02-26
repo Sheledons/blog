@@ -52,4 +52,28 @@ public class ClassifyDao implements ClassifyDaoInter {
 		return list;
 	}
 
+	@Override
+	public int createClassify(String cname,int uid) {
+		String sql="insert into classify(cname,cnumber,uid) values(?,0,?)";
+		int flag=0;
+		try{
+			flag=this.temp.update(sql,cname,uid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	@Override
+	public Classify getClassifyByCname(String cname) {
+		String sql="select * from classify where cname=?";
+		Classify c=null;
+		try{
+			c=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Classify>(Classify.class),cname);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return c;
+	}
+
 }

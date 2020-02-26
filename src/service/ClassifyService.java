@@ -25,4 +25,15 @@ public class ClassifyService implements ClassifyServiceInter {
 		ClassifyDao dao=new ClassifyDao();
 		return dao.getClassifyLimit(uid, locpage);
 	}
+
+	@Override
+	public Classify createClassify(String cname,int uid) {
+		ClassifyDao dao=new ClassifyDao();
+		Classify classify=null;
+		int flag=dao.createClassify(cname, uid);
+		if(flag!=0){
+			classify=dao.getClassifyByCname(c.getCname());
+		}
+		return classify;
+	}
 }

@@ -34,10 +34,6 @@ public class ArticleByCreateServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		List<Article> list=null;
-		if(user==null){
-			response.sendRedirect("login.html");
-			return;
-		}
 		list=service.getArticleByCreate(user.getUid());
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");

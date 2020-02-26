@@ -29,13 +29,12 @@ public class UserInfoServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		ResultInfo rinfo=new ResultInfo();
-		if(user==null){//Î´µÇÂ¼
+		if(user==null){
 			rinfo.setFlag(false);
 		}else{
 			
 			rinfo.setFlag(true);
-			rinfo.setData(user);
-		}
+			rinfo.setData(user);}
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),rinfo);

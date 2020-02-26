@@ -23,6 +23,7 @@ public class CheckSessionFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
+		//Î´ÅäÖÃ´Ë¹ıÂËÆ÷
 		HttpSession session=((HttpServletRequest)req).getSession();
 		if(session.getAttribute("user")==null){
 			((HttpServletResponse)resp).sendRedirect("login.html");

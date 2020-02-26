@@ -35,6 +35,7 @@ public class CreateArticleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
+		
 		Article art=new Article();
 		ArticleService service=new ArticleService();
 		Map<String,String[]> map=request.getParameterMap();
@@ -48,6 +49,7 @@ public class CreateArticleServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		art.setUid(user.getUid());
+		System.out.println("aname  "+art.getAname());
 		int flag=service.createArticle(art);
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");

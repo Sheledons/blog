@@ -153,7 +153,7 @@
 	            <div class="summaryName">
 					<div><a href="/blog/index.html">首页</a></div>
 					<div><a href="">分类</a></div>
-					<div><a href="">标签</a></div>
+					<div><a href="createArticle.html" style="margin-left:94px">添加文章</a></div>
 					<div><a href="" style="margin-left:94px">关于博主</a></div>
 				</div>
 	        </div>
@@ -192,7 +192,7 @@
 							if(info[1][j]!=null){
 								con+='<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>";
 							}else{
-								con+='<div class="aname">木有文章哦</div>';
+								con+='<div class="aname" style="margin-bottom:15px;">木有文章哦</div></div>';
 							}
 							if(j==3){
 								break;
@@ -218,7 +218,7 @@
 							if(info[1][j]!=null){
 								con+=('<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>");
 							}else{
-								con+=('<div class="aname">木有文章哦</div>');
+								con+=('<div class="aname " style="margin-bottom:15px;">木有文章哦</div></div>');
 							}
 							if(j==3){
 								break;

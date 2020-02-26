@@ -4,7 +4,7 @@
     <default-config>
         <property name="user">root</property>
         <property name="password">123456</property>
-        <property name="jdbcUrl">jdbc:mysql://localhost:3306/blog</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/blog?characterEncoding=utf8</property>
         <property name="driverClass">com.mysql.jdbc.Driver</property>
         <property name="checkoutTimeout">30000</property>
         <!--请求连接的最长时间，3秒过后还没有连接，抛出异常-->

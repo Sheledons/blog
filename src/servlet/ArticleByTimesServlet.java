@@ -33,10 +33,6 @@ public class ArticleByTimesServlet extends HttpServlet {
 		ArticleService service=new ArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		if(user==null){
-			response.sendRedirect("login.html"); //÷ÿ∂®œÚ
-			return;
-		}
 		Integer uid=user.getUid();
 		List<Article> list=service.getArticleByTimes(uid);
 		ResultInfo info=new ResultInfo();

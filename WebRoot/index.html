@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>mainPage</title>
-	<script src="js/jquery-3.4.1.js"></script>
+	<script src="lib/js/jquery-3.4.1.js"></script>
 	<style type="text/css">
 		div{
 			vertical-align: top;
@@ -171,9 +171,9 @@
 					<div>标签</div>
 				</div>
 				<div class="summaryName">
-					<div><a href="">首页</a></div>
+					<div><a href="/blog/index.html">首页</a></div>
 					<div><a href="/blog/classifyPage.html">分类</a></div>
-					<div><a href="">标签</a></div>
+					<div><a href="" style="margin-left:94px">添加文章</a></div>
 					<div><a href="" style="margin-left:94px">关于博主</a></div>
 				</div>
 				<div class="bottomClassify">
@@ -274,7 +274,7 @@
 					base+="<div><a href='#' style='text-decoration:none;color:#1E90FF;'>点击此处添加文章<div>"
 				}else{
 					for(var i=0;i<info.length;i++){
-						base+='<div class="rightContent"><div class="articleTitle">'+info[i].aname+'</div>'
+						base+='<div class="rightContent" id='+info[i].aid+'><div class="articleTitle">'+info[i].aname+'</div>'
 						base+='<div class="rightSummary"><span>'+info[i].time+'&nbsp;&nbsp|&nbsp;&nbsp</span>';
 						base+='<span>'+info[i].cname+"&nbsp;&nbsp|&nbsp;&nbsp</span>";
 						base+="<span>阅读次数:"+info[i].viewTimes+"</span></div>";

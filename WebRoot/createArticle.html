@@ -54,8 +54,8 @@
   <div class="aname">
     <input type="text" name="aname" placeholder="文章标题" id="atitle">
     <select class="classify">
-      <option id="">1</option>
-      <option id="">2</option>
+<!--       <option id="">1</option>
+      <option id="">2</option> -->
     </select>
 <!--     <script type="text/javascript">
       var se=document.querySelector("select");
@@ -73,9 +73,22 @@
     </div>
 </div>
 <script type="text/javascript">
+  //获取分类，填入select元素中
+  $.get("cdetailServlet",{},function(info){
+    var select=document.querySelector(".classify");
+    for(var i=0;i<info.length;i++){
+      var option=document.createElement("option");
+      option.id=info[i].cid;
+      option.innerHTML=info[i].cname;
+      select.appendChild(option);
+    }
+  })
+</script>
+<script type="text/javascript">
   //创建分类
   $(".createClassify").click(function(){
-    if($("#newc").val()!=null){
+    console.log('newc: '+$("#newc").val())
+    if($("#newc").val().length!=0){
       $.post("createClassifyServlet",{cname:$("#newc").val()},function(info){
         //返回 cid,cname
         var sel=document.querySelector(".classify");
@@ -83,6 +96,7 @@
         option.id=info.data.cid;
         option.innerHTML=info.data.cname;
         sel.insertBefore(option,sel.children[0]);
+        $("#newc").val("");
       })
     }
   })
@@ -95,11 +109,16 @@
     if(title==null){
       alert("文章标题不可以为空");
     }else{
-      $.post("createArticleServlet",{aname:title,content:content,cid:cid},function(info){
+      var date=new Date();
+      var year=date.getFullYear();
+      var month=date.getMonth();
+      var day=date.getDate();
+      var time=year+"-"+month+"-"+day;
+      $.post("createArticleServlet",{aname:title,content:content,cid:cid,time:time},function(info){
         //返回值为true或者false,viewTimes,等参数dao层添加
         if(info==true){
           alert("创建成功");
-          location.href="blog/createArticle.html";
+          location.href="createArticle.html";
         }else{
           alert("创建失败");
         }

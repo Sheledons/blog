@@ -65,4 +65,17 @@ public class ArticleDao implements ArticleDaoInter{
 		return art;
 	}
 
+	@Override
+	public int createArticle(Article art) {
+		// TODO Auto-generated method stub
+		String sql="insert into article(uid,time,cid,content,viewTimes,aname) values(?,?,?,?,0,?)";
+		int flag=0;
+		try{
+			flag=this.temp.update(sql,art.getUid(),art.getTime(),art.getCid(),art.getContent(),art.getAname());
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
 }

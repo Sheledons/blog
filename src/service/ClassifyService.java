@@ -32,7 +32,7 @@ public class ClassifyService implements ClassifyServiceInter {
 		Classify classify=null;
 		int flag=dao.createClassify(cname, uid);
 		if(flag!=0){
-			classify=dao.getClassifyByCname(c.getCname());
+			classify=dao.getClassifyByCname(cname);
 		}
 		return classify;
 	}

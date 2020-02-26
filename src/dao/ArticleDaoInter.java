@@ -7,4 +7,5 @@ public interface ArticleDaoInter {
 	public List<Article> getArticleByTimes(int uid);
 	public List<Article> getArticleByCreate(int uid);
 	public Article getArticleOne(int cid);
+	public int createArticle(Article art);
 }

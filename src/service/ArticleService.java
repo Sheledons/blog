@@ -28,4 +28,9 @@ public class ArticleService implements ArticleServiceInter{
 		return this.dao.getArticleOne(cid);
 	}
 
+	@Override
+	public int createArticle(Article art) {
+		return this.dao.createArticle(art);
+	}
+
 }

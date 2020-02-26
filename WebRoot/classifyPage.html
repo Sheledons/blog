@@ -84,9 +84,10 @@
 		}
 		.cname>a{
 			text-decoration: none;
-			margin-left: 450px;
-			font-size: 18px;
-			color: #4682B4;
+		    margin-left: 500px;
+		    font-size: 18px;
+		    color: #4682B4;
+		    display: block;
 		}
 		.aname{
 			padding-top: 20px;
@@ -150,7 +151,7 @@
 					})
 				</script>
 	            <div class="summaryName">
-					<div><a href="">首页</a></div>
+					<div><a href="/blog/index.html">首页</a></div>
 					<div><a href="">分类</a></div>
 					<div><a href="">标签</a></div>
 					<div><a href="" style="margin-left:94px">关于博主</a></div>
@@ -176,13 +177,10 @@
 		 			//如果 pageNum 得不到数据，那么将请求放入 第一个get中
 		 			//获取分类数量
 		 			$.get("cnumberServlet",function(info){
-		 				pageNum=parseInt(info/4+0.5);
-		 				if(info==1){
-		 					pageNum=1;
-		 				}
+		 				pageNum=info%4==0?info/4:parseInt(info/4+1);
 		 				var base="";
 		 				for(var i=0;i<pageNum;i++){
-		 					base+="<a href='javascript:;' id='button'>"+i+1+"</a>";
+		 					base+="<a href='javascript:;' id='button'>"+(i+1)+"</a>";
 		 				}
 		 				$(".pageNum").html(base);
 		 			})
@@ -192,7 +190,7 @@
 						for(var j=0;j<info[0].length;j++){
 							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">'
 							if(info[1][j]!=null){
-								con+='<a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
+								con+='<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>";
 							}else{
 								con+='<div class="aname">木有文章哦</div>';
 							}
@@ -203,40 +201,32 @@
 						$(".rightContent").html(con);
 					})
 	 		</script>
-	        <script type="text/javascript">
-	 			/*为页数元素绑定点击事件
-	 			1,点击发送异步get请求
-	 			2，点击变色事件*/
-	 			$(".pageNum").change(function(){
-		 		    var pageButtons=document.querySelectorAll("#button");
-		 			console.log(pageButtons);
-		 			 for(var i=0;i<pageButtons.length;i++){
-		 				pageButtons[i].addEventListener("click",function(evet){
-		 					$.get("cshowServlet",{locpage:pageButtons[i].html},function(info){
-		 						var con="";
-		 						for(var j=0;j<info[0].length;j++){
-		 							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">'
-		 							if(info[1][j]!=null){
-		 								con+='<a href="javascript:;">'+info[1][j].aname+'<br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span>";
-		 							}else{
-		 								con+='<div class="aname">木有文章哦</div>';
-		 							}
-		 							if(j==3){
-		 								break;
-		 							}
-		 						}
-		 						$(".rightContent").html(con);
-		 					})
-		 				});
-		 				pageButtons[i].addEventListener("click",function(event){
-		 				    console.log("buttonClick");
-		 					for(var h=0;h<pageButtons.length;i++){
-		 						pageButtons[i].style.backgroundColor="#4682B4";
-		 					}
-		 					pageButtons[i].style.backgroundColor="white";
-		 				});
-	 			    }
-	 			})			
+	 		<script type="text/javascript">
+	 			// $("#test1").siblings(); // 所有兄弟节点
+	 			$(".pageNum").on("click","#button",function(){
+	 			//    console.log("ew:  "+$(".pageNum").children().length);
+	 				for(var i=0;i<$(".pageNum").children().length;i++){
+	 			//		console.log($(".pageNum").children()[0]);
+	 			       $(".pageNum").children()[i].style.backgroundColor="#4682B4";
+	 				}
+	 				console.log(this.innerHTML);
+	 				this.style.backgroundColor="white";
+	 				$.get("cshowServlet",{locpage:this.innerHTML},function(info){
+						var con="";
+						for(var j=0;j<info[0].length;j++){
+							con+=('<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">');
+							if(info[1][j]!=null){
+								con+=('<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>");
+							}else{
+								con+=('<div class="aname">木有文章哦</div>');
+							}
+							if(j==3){
+								break;
+							}
+						}
+	 					$(".rightContent").html(con);	 				
+	 				})
+	 			})
 	 		</script>
 	 </div>
 	 <script type="text/javascript">
@@ -249,5 +239,6 @@
 	 	*/
 
 	 </script>
+	 <!-- <span></span> -->
 </body>
 </html>

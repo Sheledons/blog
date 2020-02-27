@@ -11,4 +11,5 @@ public interface ArticleDaoInter {
 	public Article getArticleByAid(int aid);
 	public int createArticle(Article art);
 	public int deleteArticle(int aid);
+	public int getNewAid(int uid);
 }

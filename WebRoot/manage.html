@@ -14,6 +14,12 @@
         margin-left: 310px;
         margin-top: 20px;
       }
+      .mainTitle>a{
+	    text-decoration: none;
+	    font-size: 20px;
+	    margin-left: 50px;
+	    color: #4682B4;
+      }
       .subhead{
         color: #4682B4;
         background-color: white;
@@ -65,11 +71,12 @@
     <div >
       <div class="mainTitle">
         MyBlog-管理
+        <a href="index.html">首页</a>
       </div>
       <div style="margin-bottom: 30px;" class="alreadyDelArticle"></div>
         <script type="text/javascript">    
           $.get("showDelArticleServlet",{},function(info){
-            var base='<div class="title"><sapn class="subhead">最近删除</sapn><a class="entireClear">彻底清除</a></div>';
+            var base='<div class="title"><sapn class="subhead">最近删除</sapn><a href="javascript:;" class="entireClear">彻底清除</a></div>';
             if(info.flag==false){
               base+=('<div class="content"><span class="aname">无最近删除</span></div>');
                     console.log("base  "+base);
@@ -97,6 +104,12 @@
               }
             })
           })
+        $(".alreadyDelArticle").on("click",".entireClear",function(){
+          $.get("entireClearServlet",{},function(info){
+            alert("dfka");
+            window.location="manage.html";
+          });
+        })
         </script>
       <!--分割线-->
       <div style="margin-bottom: 30px;" class="manageArticle">
@@ -170,7 +183,7 @@
         </script>
       </div>
       <!--分割线-->
-      <div style="margin-bottom: 30px;" class="manageClaaify">
+      <div style="margin-bottom: 30px;" class="manageClassify">
         <script type="text/javascript">
           var base='<div class="title"><sapn class="subhead">分类管理</sapn> </div><div style="color:red;margin-left: 310px;">删除分类会删除该分类下的所有文章，且不可恢复</div>';
           $.get("cdetailServlet",function(list){
@@ -179,18 +192,19 @@
             }else{
               for(var i=0;i<list.length;i++){
                 base+=('<div class="content"><span class="aname">'+list[i].cname+'</span><div class="lilite">');
-                base+=('<a href="javascript:;" data-id='+list[i].cid+'" class="deleteClassify">删除</a></div></div>');
+                base+=('<a href="javascript:;" data-id='+list[i].cid+' class="deleteClassify">删除</a></div></div>');
               }
-              $(".manageClaaify").html(base);
+              $(".manageClassify").html(base);
             }
           });
         </script>
       </div>
       <script type="text/javascript">
-        $(".manageClaaify").on("click",".deleteClassify",function(){
+        $(".manageClassify").on("click",".deleteClassify",function(){
+          var touch=this;
           $.get("deleteClassifyServlet",{cid:this.getAttribute("data-id")},function(info){
             if(info==true){
-              $(".manageClaaify").removeChild(this.parentNode.parentNode);
+              document.querySelector(".manageClassify").removeChild(touch.parentNode.parentNode);
             }else{
               alert("删除分类失败");
             }

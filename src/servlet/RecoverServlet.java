@@ -35,12 +35,13 @@ public class RecoverServlet extends HttpServlet {
 		ArticleService service=new ArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
+		int uid=user.getUid();
 		Article art=null;
 		ResultInfo info=new ResultInfo();
 		int aid;
 		try{
 			aid=Integer.parseInt(request.getParameter("aid"));
-			art=service.recoverArticle(aid);
+			art=service.recoverArticle(aid,uid);
 			info.setData(art);
 			info.setFlag(true);
 		}catch(NumberFormatException e){

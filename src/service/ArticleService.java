@@ -40,7 +40,7 @@ public class ArticleService implements ArticleServiceInter{
 	}
 
 	@Override
-	public Article deleteArticle(int aid) {
+	public Article deleteArticle(int aid,int uid) {
 		Article art=this.dao.getArticleByAid(aid);
 		int num=0;
 		if(art!=null){
@@ -49,6 +49,10 @@ public class ArticleService implements ArticleServiceInter{
 			if(num!=0){
 				DelArticleDao ddao=new DelArticleDao();
 				ddao.addRow(art);
+				int daid=ddao.getNewAid(uid);
+				art.setAid(daid);
+//				rart=ddao.getDelArticleOne(daid);
+//				rart.setContent(null);
 			}
 		}
 		return art;
@@ -69,18 +73,25 @@ public class ArticleService implements ArticleServiceInter{
 	}
 
 	@Override
-	public Article recoverArticle(int aid) {
+	public Article recoverArticle(int aid,int uid) {
 		// TODO Auto-generated method stub
 		DelArticleDao adao=new DelArticleDao();
 		Article art=adao.getDelArticleOne(aid);
 		int num=adao.deleteRow(aid);
 		System.out.print("num:   "+num);
 		if(num!=0){
-			System.out.print("½øÈë");
 			this.dao.createArticle(art);
+			art.setAid(this.dao.getNewAid(uid));
 			art.setContent(null);
 			art.setCid(0);
 		}
 		return art;
+	}
+
+	@Override
+	public void entireClear(int uid) {
+		// TODO Auto-generated method stub
+		DelArticleDao adao=new DelArticleDao();
+		adao.deleteAllRow(uid);
 	}
 }

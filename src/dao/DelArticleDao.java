@@ -61,5 +61,22 @@ public class DelArticleDao implements DelArticleDaoInter {
 		}
 		return art;
 	}
+	@Override
+	public void deleteAllRow(int uid) {
+		// TODO Auto-generated method stub
+		String sql="delete from delarticle where uid=?";
+		try{
+			this.temp.update(sql,uid);
+		}catch(DataAccessException d){
+			
+		}
+	}
+	@Override
+	public int getNewAid(int uid) {
+		// TODO Auto-generated method stub
+		String sql="select aid from delArticle where uid=? order by aid DESC limit 1";
+		int aid=this.temp.queryForObject(sql,Integer.class,uid);
+		return aid;
+	}
 	
 }

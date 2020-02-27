@@ -119,5 +119,18 @@ public class ArticleDao implements ArticleDaoInter{
 		}
 		return art;
 	}
+
+	@Override
+	public int getNewAid(int uid) {
+		// TODO Auto-generated method stub
+		String sql="select aid from article where uid=? order by aid DESC limit 1";
+		int aid=0;
+		try{
+			aid=this.temp.queryForObject(sql,Integer.class,uid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return aid;
+	}
 	
 }

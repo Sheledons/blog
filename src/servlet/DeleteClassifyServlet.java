@@ -1,22 +1,14 @@
 package servlet;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import service.ArticleService;
-import domain.Article;
-import domain.User;
-public class ArticleByCreateServlet extends HttpServlet {
+public class DeleteClassifyServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -30,13 +22,7 @@ public class ArticleByCreateServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArticleService service=new ArticleService();
-		HttpSession session=request.getSession();
-		User user=(User)session.getAttribute("user");
-		List<Article> list=null;
-		list=service.getArticleByCreate(user.getUid());
-		ObjectMapper mapper=new ObjectMapper();
-		mapper.writeValue(response.getOutputStream(),list);
+
 	}
 
 }

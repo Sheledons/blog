@@ -55,7 +55,6 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session=req.getSession();
 			ruser.setPwd("");
 			session.setAttribute("user",ruser);
-			resp.setContentType("application/json;charset=utf-8");
 		}
 		mapper.writeValue(resp.getOutputStream(),info);
 	}

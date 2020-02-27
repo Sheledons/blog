@@ -29,7 +29,7 @@ public class ArticleDao implements ArticleDaoInter{
 	@Override
 	public List<Article> getArticleByTimes(int uid) {
 
-		String sql="select * from article where uid=? order by viewTimes DESC";
+		String sql="select aname,viewTimes from article where uid=? order by viewTimes DESC";
 		List<Article> art=null;
 		try{
 			art=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid);
@@ -53,7 +53,7 @@ public class ArticleDao implements ArticleDaoInter{
 	}
 
 	@Override
-	public Article getArticleOne(int cid) {
+	public Article getArticleNewOne(int cid) {
 		// TODO Auto-generated method stub
 		String sql="select aname,time,viewTimes from article where cid=? order by aid DESC limit 1";
 		Article art=null;
@@ -79,4 +79,30 @@ public class ArticleDao implements ArticleDaoInter{
 		return flag;
 	}
 
+	@Override
+	public List<Article> getArticleById(int uid) {
+		// TODO Auto-generated method stub
+		String sql="select aname,time,viewTimes,aid from article where uid=? order by aid DESC";
+		List<Article> list=null;
+		try{
+			list=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public int deleteArticle(int aid) {
+		// TODO Auto-generated method stub
+		String sql="delete from article where aid=?";
+		int num=0;
+		try{
+			num=this.temp.update(sql,aid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return num;
+	}
+	
 }

@@ -53,7 +53,6 @@ public class CshowServlet extends HttpServlet {
 		resultList.add(listClassify);
 		resultList.add(listArticle);
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;character=utf-8");
 		mapper.writeValue(response.getOutputStream(),resultList);
 	}
 

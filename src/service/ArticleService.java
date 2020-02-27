@@ -25,12 +25,31 @@ public class ArticleService implements ArticleServiceInter{
 
 	@Override
 	public Article getArticleOne(int cid) {
-		return this.dao.getArticleOne(cid);
+		return this.dao.getArticleNewOne(cid);
 	}
 
 	@Override
 	public int createArticle(Article art) {
 		return this.dao.createArticle(art);
+	}
+
+	@Override
+	public List<Article> getArticleId(int uid) {
+		// TODO Auto-generated method stub
+		return this.dao.getArticleById(uid);
+	}
+
+	@Override
+	public boolean deleteArticle(int aid) {
+		int num=this.dao.deleteArticle(aid);
+		boolean flag=num==0?false:true;
+		return flag;
+	}
+
+	@Override
+	public Article getArticle(int aid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

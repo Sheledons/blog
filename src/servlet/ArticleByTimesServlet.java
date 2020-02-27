@@ -43,7 +43,6 @@ public class ArticleByTimesServlet extends HttpServlet {
 			info.setFlag(true);
 		}
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),info);
 	}
 

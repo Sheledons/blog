@@ -34,7 +34,6 @@ public class CnumberServlet extends HttpServlet {
 		ClassifyService service=new ClassifyService();
 		int num=service.getClassifyNumber(user.getUid());
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),num);
 	}
 }

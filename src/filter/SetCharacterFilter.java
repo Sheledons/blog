@@ -23,6 +23,7 @@ public class SetCharacterFilter implements Filter {
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("utf-8");
 		chain.doFilter(req,resp);
+		resp.setContentType("application/json;charset=utf-8");
 	}
 
 	@Override

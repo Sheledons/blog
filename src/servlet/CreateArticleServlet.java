@@ -52,7 +52,6 @@ public class CreateArticleServlet extends HttpServlet {
 		System.out.println("aname  "+art.getAname());
 		int flag=service.createArticle(art);
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),flag);
 	}
 

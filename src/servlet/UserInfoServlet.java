@@ -36,7 +36,6 @@ public class UserInfoServlet extends HttpServlet {
 			rinfo.setFlag(true);
 			rinfo.setData(user);}
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),rinfo);
 	}
 

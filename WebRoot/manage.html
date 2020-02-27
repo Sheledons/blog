@@ -47,10 +47,12 @@
       }
       .time{
         color: black;
-        margin-left: 570px;
       }
       .recover{
         text-decoration: none;
+        display: block;
+        margin-top: 10px;
+        margin-left: 10px;
       }
     </style>
   </head>
@@ -88,58 +90,39 @@
       </div>
 
       <!--分割线-->
-      <div style="margin-bottom: 30px;">
-        <div class="title">
-          <sapn class="subhead">文章管理</sapn>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <span class="time">时间</span>
-             <a href="javascript:;" class="recover">恢复</a>           
-          </div>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <span class="time">时间</span>
-             <a href="javascript:;" class="recover">恢复</a>           
-          </div>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <span class="time">时间</span>
-             <a href="javascript:;" class="recover">恢复</a>           
-          </div>
-        </div>
+      <div style="margin-bottom: 30px;" class="manageArticle">
+        <script type="text/javascript">
+          $.get("articleIdServlet",function(info){
+            var base='<div class="title"><sapn class="subhead">文章管理</sapn> </div>';
+            if(info.flag==false){
+              base+=('<span class="aname">'+木有文章+'</span>');
+            }else{
+              for(var i=0;i<info.data.length;i++){
+                base+=('<div class="content"><span class="aname">'+info.data[i].aname+'</span><div style="margin-right:100px;width:660px;text-align:right">');
+                base+=('<span class="time">'+info.data[i].time+'</span><a href="deleteArticleServlet&aid='+info.data[i].aid+'" class="recover">删除</a></div></div>');
+              }
+              $(".manageArticle").html(base);
+            }
+          })
+        </script>
       </div>
       <!--分割线-->
 
-      <div style="margin-bottom: 30px;">
-        <div class="title">
-          <sapn class="subhead">分类管理</sapn>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <a href="javascript:;" class="recover">删除</a>           
-          </div>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <span class="time">时间</span>
-             <a href="javascript:;" class="recover">恢复</a>           
-          </div>
-        </div>
-        <div class="content">
-          <span class="aname">文章名称</span>
-          <div style="margin-right:100px;width:660px;text-align:right">
-             <span class="time">时间</span>
-             <a href="javascript:;" class="recover">恢复</a>           
-          </div>
-        </div>
+      <div style="margin-bottom: 30px;" class="manageClaaify">
+        <script type="text/javascript">
+          var base='<div class="title"><sapn class="subhead">分类管理</sapn> </div><div style="color:red;margin-left: 310px;">删除分类会删除该分类下的所有文章，且不可恢复</div>';
+          $.get("cdetailServlet",function(list){
+            if(list==null){
+                base+=('<span class="aname">'+木有分类+'</span>');
+            }else{
+              for(var i=0;i<list.length;i++){
+                base+=('<div class="content"><span class="aname">'+list[i].cname+'</span><div style="margin-right:100px;width:660px;text-align:right">');
+                base+=('<a href="deleteClassifyServlet&cid='+list[i].cid+'" class="recover">删除</a></div></div>');
+              }
+              $(".manageClaaify").html(base);
+            }
+          })
+        </script>
       </div>
     </div>
   </body>

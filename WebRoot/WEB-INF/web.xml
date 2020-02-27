@@ -69,6 +69,27 @@
     <servlet-name>CreateArticleServlet</servlet-name>
     <servlet-class>servlet.CreateArticleServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ArticleIdServlet</servlet-name>
+    <servlet-class>servlet.ArticleIdServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DeleteArticleServlet</servlet-name>
+    <servlet-class>servlet.DeleteArticleServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DeleteClassifyServlet</servlet-name>
+    <servlet-class>servlet.DeleteClassifyServlet</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -122,6 +143,18 @@
   <servlet-mapping>
     <servlet-name>CreateArticleServlet</servlet-name>
     <url-pattern>/createArticleServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ArticleIdServlet</servlet-name>
+    <url-pattern>/articleIdServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteArticleServlet</servlet-name>
+    <url-pattern>/deleteArticleServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteClassifyServlet</servlet-name>
+    <url-pattern>/deleteClassifyServlet</url-pattern>
   </servlet-mapping>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

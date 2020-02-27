@@ -33,7 +33,6 @@ public class CdetailServlet extends HttpServlet {
 		ClassifyService service=new ClassifyService();
 		list=service.getClassify(user.getUid());
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),list);
 	}
 

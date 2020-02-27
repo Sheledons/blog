@@ -32,7 +32,6 @@ public class ArticleNumberServlet extends HttpServlet {
 		Integer uid=user.getUid();
 		int number=service.getArticleNumber(uid);
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),number);
 	}
 

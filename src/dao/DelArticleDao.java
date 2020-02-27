@@ -27,7 +27,7 @@ public class DelArticleDao implements DelArticleDaoInter {
 	@Override
 	public List<Article> getDelArticle(int uid) {
 		// TODO Auto-generated method stub
-		String sql="select aname,time from delArticle where uid=?";
+		String sql="select aid,aname,time from delArticle where uid=?";
 		List<Article> list=null;
 		try{
 			list=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid);
@@ -35,6 +35,31 @@ public class DelArticleDao implements DelArticleDaoInter {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public int deleteRow(int aid) {
+		// TODO Auto-generated method stub
+		String sql="delete from delArticle where aid=?";
+		int num;
+		try{
+			num=this.temp.update(sql,aid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			num=0;
+		}
+		return num;
+	}
+	@Override
+	public Article getDelArticleOne(int aid) {
+		// TODO Auto-generated method stub
+		String sql="select * from delArticle where aid=?";
+		Article art=null;
+		try{
+			art=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class),aid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return art;
 	}
 	
 }

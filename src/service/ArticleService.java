@@ -66,4 +66,20 @@ public class ArticleService implements ArticleServiceInter{
 		
 		return adao.getDelArticle(uid);
 	}
+
+	@Override
+	public Article recoverArticle(int aid) {
+		// TODO Auto-generated method stub
+		DelArticleDao adao=new DelArticleDao();
+		Article art=adao.getDelArticleOne(aid);
+		int num=adao.deleteRow(aid);
+		System.out.print("num:   "+num);
+		if(num!=0){
+			System.out.print("½øÈë");
+			this.dao.createArticle(art);
+			art.setContent(null);
+			art.setCid(0);
+		}
+		return art;
+	}
 }

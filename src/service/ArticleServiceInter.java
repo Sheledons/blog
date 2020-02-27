@@ -12,4 +12,5 @@ public interface ArticleServiceInter {
 	public int createArticle(Article art);
 	public Article deleteArticle(int aid);
 	public List<Article> getDelArticle(int uid);
+	public Article recoverArticle(int aid);
 }

@@ -95,7 +95,7 @@ public class ArticleDao implements ArticleDaoInter{
 	@Override
 	public int deleteArticle(int aid) {
 		// TODO Auto-generated method stub
-		String sql="delete from article where aid=?";
+		String sql="delete from delArticle where aid=?";
 		int num=0;
 		try{
 			num=this.temp.update(sql,aid);

@@ -77,12 +77,26 @@
             else{
               for(var i=0;i<info.data.length;i++){
                 base+=('<div class="content"><span class="aname">'+info.data[i].aname+'</span><div class="lilite"><span class="time">'+info.data[i].time+'</span>');
-                base+=('<a href="javascript:;" class="recover">恢复</a></div></div>')
+                base+=('<a href="javascript:;" class="recover" data-id='+info.data[i].aid+'>恢复</a></div></div>')
               }
             }
            console.log("base  "+base);
            $(".alreadyDelArticle").html(base);
           });
+        </script>
+        <script type="text/javascript">
+          $(".alreadyDelArticle").on("click",".recover",function(){
+            var anode=this;
+            $.get("recoverServlet",{aid:this.getAttribute("data-id")},function(info){
+              if(info.flag==true){
+                document.querySelector(".alreadyDelArticle").removeChild(anode.parentNode.parentNode);
+                var parEle=document.querySelector(".manageArticle");
+                parEle.insertBefore(addDelArticleElement(info.data),parEle.children[1]);
+              }else{
+                alter("恢复失败");
+              }
+            })
+          })
         </script>
       <!--分割线-->
       <div style="margin-bottom: 30px;" class="manageArticle">
@@ -164,8 +178,8 @@
         </script>
       </div>
       <script type="text/javascript">
-        $(".manageClaaify").on("click",".deleteClassify",function(info){
-          $.get("deleteClassifyServlet",{cid:this.getAttribute("data-id")},function(){
+        $(".manageClaaify").on("click",".deleteClassify",function(){
+          $.get("deleteClassifyServlet",{cid:this.getAttribute("data-id")},function(info){
             if(info==true){
               $(".manageClaaify").removeChild(this.parentNode.parentNode);
             }else{

@@ -91,7 +91,7 @@
               if(info.flag==true){
                 document.querySelector(".alreadyDelArticle").removeChild(anode.parentNode.parentNode);
                 var parEle=document.querySelector(".manageArticle");
-                parEle.insertBefore(addDelArticleElement(info.data),parEle.children[1]);
+                parEle.insertBefore(addDelArticleElement(info.data,1),parEle.children[1]);
               }else{
                 alter("恢复失败");
               }
@@ -115,7 +115,7 @@
           })
         </script>
         <script type="text/javascript">
-            var addDelArticleElement=function(data){
+            var addDelArticleElement=function(data,flag){
             var newPdiv=document.createElement("div");
             var newSdiv=document.createElement("div");
             var newSpan=document.createElement("span");
@@ -127,7 +127,16 @@
             newSSpan.className="time";
             newSSpan.innerHTML=data.time;
             newSdiv.className="lilite";
-            newA.className="recover";
+            if(flag==1){
+              newA.innerHTML="删除";
+              newA.className="deleteArticle";
+            }
+            else{
+              newA.className="recover";
+              newA.innerHTML="恢复";
+            }
+            newA.href="javascript:;"
+            newA.setAttribute("data-id",data.aid);
             newPdiv.appendChild(newSpan);
             newPdiv.appendChild(newSdiv);
             newSdiv.appendChild(newSSpan);
@@ -146,7 +155,7 @@
                 //从文章列表删除，加入到删除列表
                 document.querySelector(".manageArticle").removeChild(node.parentNode.parentNode);
                 var d=document.querySelector(".alreadyDelArticle");
-                d.insertBefore(addDelArticleElement(info.data),d.children[1]);
+                d.insertBefore(addDelArticleElement(info.data,2),d.children[1]);
               }else{
                 //显示删除失败
                 var p=document.querySelector(".manageArticle");

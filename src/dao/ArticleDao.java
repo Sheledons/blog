@@ -1,7 +1,9 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -68,13 +70,19 @@ public class ArticleDao implements ArticleDaoInter{
 	@Override
 	public int createArticle(Article art) {
 		// TODO Auto-generated method stub
-		String sql="insert into article(uid,time,cid,content,viewTimes,aname) values(?,?,?,?,0,?)";
+		int aid=art.getAid();
+		String sql;
+		if(aid==0){
+			sql="insert into article(uid,time,cid,content,viewTimes,aname) values(?,?,?,?,0,?)";
+		}else{
+			sql="insert into article(aid,uid,time,cid,content,viewTimes,aname) values(?,?,?,?,?,0,?)";
+		}
 		int flag=0;
 		try{
-			System.out.println("aname{  "+art.getAname());
+//			System.out.println("aname{  "+art.getAname());
 			flag=this.temp.update(sql,art.getUid(),art.getTime(),art.getCid(),art.getContent(),art.getAname());
-		}catch(DataAccessException e){
-			e.printStackTrace();
+		}catch(BadSqlGrammarException e){
+			flag=this.temp.update(sql,art.getAid(),art.getUid(),art.getTime(),art.getCid(),art.getContent(),art.getAname());
 		}
 		return flag;
 	}

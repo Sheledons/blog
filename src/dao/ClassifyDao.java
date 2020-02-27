@@ -87,7 +87,6 @@ public class ClassifyDao implements ClassifyDaoInter {
 			e.printStackTrace();
 		}
 		return num;
-		return false;
 	}
 
 }

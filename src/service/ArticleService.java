@@ -40,24 +40,30 @@ public class ArticleService implements ArticleServiceInter{
 	}
 
 	@Override
-	public boolean deleteArticle(int aid) {
+	public Article deleteArticle(int aid) {
 		Article art=this.dao.getArticleByAid(aid);
-		boolean flag=false;
 		int num=0;
 		if(art!=null){
 			num=this.dao.deleteArticle(aid);
 			if(num!=0){
 				DelArticleDao ddao=new DelArticleDao();
-				ddao.addColumn(art);
-				flag=true;
+				ddao.addRow(art);
 			}
 		}
-		return flag;
+		return art;
 	}
 
 	@Override
 	public Article getArticle(int aid) {
 		// TODO Auto-generated method stub
 		return this.dao.getArticleByAid(aid);
+	}
+
+	@Override
+	public List<Article> getDelArticle(int uid) {
+		// TODO Auto-generated method stub
+		DelArticleDao adao=new DelArticleDao();
+		
+		return adao.getDelArticle(uid);
 	}
 }

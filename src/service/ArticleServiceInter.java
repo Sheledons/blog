@@ -10,5 +10,6 @@ public interface ArticleServiceInter {
 	public Article getArticleOne(int cid);
 	public Article getArticle(int aid);
 	public int createArticle(Article art);
-	public boolean deleteArticle(int aid);
+	public Article deleteArticle(int aid);
+	public List<Article> getDelArticle(int uid);
 }

@@ -1,5 +1,8 @@
 package dao;
+import java.util.List;
+
 import domain.Article;
 public interface DelArticleDaoInter {
-	public int addColumn(Article art);
+	public int addRow(Article art);
+	public List<Article> getDelArticle(int uid);
 }

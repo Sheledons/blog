@@ -1,9 +1,8 @@
 package servlet;
-import domain.Article;
-import domain.ResultInfo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +13,11 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
-
+import domain.Article;
+import domain.ResultInfo;
 import domain.User;
 
-public class DeleteArticleServlet extends HttpServlet {
+public class ShowDelArticleServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -34,18 +34,15 @@ public class DeleteArticleServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		ArticleService service=new ArticleService();
-		Article a=null;
 		ResultInfo info=new ResultInfo();
-		try{
-			Integer aid=Integer.parseInt(request.getParameter("aid"));
-			a=service.deleteArticle(aid);
-			info.setFlag(true);
-			a.setContent(null);
-			a.setViewTimes(0);
-			info.setData(a);
-		}
-		catch(NumberFormatException e){
+		List<Article> list=null;
+		int uid=user.getUid();
+		list=service.getDelArticle(uid);
+		if(list==null){
 			info.setFlag(false);
+		}else{
+			info.setData(list);
+			info.setFlag(true);
 		}
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");

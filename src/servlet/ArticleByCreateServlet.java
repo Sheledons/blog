@@ -36,6 +36,7 @@ public class ArticleByCreateServlet extends HttpServlet {
 		List<Article> list=null;
 		list=service.getArticleByCreate(user.getUid());
 		ObjectMapper mapper=new ObjectMapper();
+		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),list);
 	}
 

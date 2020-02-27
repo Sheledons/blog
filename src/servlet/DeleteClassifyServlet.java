@@ -43,6 +43,7 @@ public class DeleteClassifyServlet extends HttpServlet {
 			flag=false;
 		}
 		ObjectMapper mapper=new ObjectMapper();
+		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),flag);
 	}
 }

@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 			ruser.setPwd("");
 			session.setAttribute("user",ruser);
 		}
+		resp.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(resp.getOutputStream(),info);
 	}
 }

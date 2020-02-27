@@ -54,6 +54,11 @@
         margin-top: 10px;
         margin-left: 10px;
       }
+      .lilite{
+        margin-right:100px;
+        width:660px;
+        text-align:right
+      }
     </style>
   </head>
   <body style="background-color:#DCDCDC">
@@ -61,8 +66,116 @@
       <div class="mainTitle">
         MyBlog-管理
       </div>
-      <div style="margin-bottom: 30px;">
-        <div class="title">
+      <div style="margin-bottom: 30px;" class="alreadyDelArticle">
+        <script type="text/javascript">
+          var base='<div class="title"><sapn class="subhead">最近删除</sapn><a class="entireClear">彻底清除</a></div>';
+          $.get("showDelArticleServlet",function(info){
+            if(info.flag==false){
+              base+=('<div class="content"><span class="aname">无最近删除</span></div>');
+            }eles{
+              for(var i=0;i<info.data.length;i++){
+                base+=('<div class="content"><span class="aname">'+info.data.aname+'</span><div class="lilite"><span class="time">'+info.data.time+'</span>');
+                base+=('<a href="javascript:;" class="recover">恢复</a></div></div>')
+              }
+            }
+          })
+        </script>
+
+      </div>
+
+      <!--分割线-->
+      <div style="margin-bottom: 30px;" class="manageArticle">
+        <script type="text/javascript">
+          $.get("articleIdServlet",function(info){
+            var base='<div class="title"><sapn class="subhead">文章管理</sapn> </div>';
+            if(info.flag==false){
+              base+=('<span class="aname">'+木有文章+'</span>');
+            }else{
+              for(var i=0;i<info.data.length;i++){
+                base+=('<div class="content id='+info.data[i].aid+'"><span class="aname>'+info.data[i].aname+'</span><div class="lilite">');
+                base+=('<span class="time">'+info.data[i].time+'</span><a href="javascript:;" id='+info.data[i].aid+' class="deleteArticle">删除</a></div></div>');
+              }
+              $(".manageArticle").html(base);
+            }
+          })
+        </script>
+        <script type="text/javascript">
+          var addDelArticleElement=function(){
+            var newPdiv=document.createElement("div");
+            var newSdiv=document.createElement("div");
+            var newSpan=document.createElement("span");
+            var newSSpan=document.createElement("span");
+            var newA=document.createElement("a");
+            newPdiv.className="content";
+            newSpan.className="aname";
+            newSSpan.className="time";
+            newSdiv.className="lilite";
+            newA.className="recover";
+            newPdiv.appendChild(newSpan);
+            newPdiv.appendChild(newSdiv);
+            newSdiv.appendChild(newSSpan);
+            newSdiv.appendChild(newA);
+            return newPdiv;
+          }
+        </script>
+        <script type="text/javascript">
+          $(".manageArticle").on("click",".deleteArticle",function(){
+            var a=document.querySelectorAll(".deleteArticle");
+            for(var i=0;i<a.length;i++){
+              a[i].addEventListener("click",function(){
+                $.get("deleteArticleServlet",{aid:a[i].id},function(info){
+                  if(info==true){
+                    //从文章列表删除，加入到删除列表
+                    document.querySelector(".manageArticle").removeChild(a[i]);
+                    var d=document.querySelector(".alreadyDelArticle");
+                    d.insertBefore(addDelArticleElement(),d.children[1]);
+                  }else{
+                    //显示删除失败
+                    var p=document.querySelector(".manageArticle");
+                    var content=p.querySelector("#"+a[i].id);
+                    var span=document.createElement("span");
+                    span.innerHTML="删除失败";
+                    span.style.color="red";
+                    content.insertBefore(span,conent.children[1]);
+                  }
+                })
+              })
+            }
+          })
+        </script>
+      </div>
+      <!--分割线-->
+      <div style="margin-bottom: 30px;" class="manageClaaify">
+        <script type="text/javascript">
+          var base='<div class="title"><sapn class="subhead">分类管理</sapn> </div><div style="color:red;margin-left: 310px;">删除分类会删除该分类下的所有文章，且不可恢复</div>';
+          $.get("cdetailServlet",function(list){
+            if(list==null){
+                base+=('<span class="aname">'+木有分类+'</span>');
+            }else{
+              for(var i=0;i<list.length;i++){
+                base+=('<div class="content"><span class="aname">'+list[i].cname+'</span><div class="lilite">');
+                base+=('<a href="javascript:;" id='+list[i].cid+'" class="deleteClassify">删除</a></div></div>');
+              }
+              $(".manageClaaify").html(base);
+            }
+          })
+        </script>
+        <script type="text/javascript">
+          $(".manageClaaify").on("click",".deleteClassify",fucntion(){
+            $.get("deleteClassify",{cid:this.id},function(info){
+              if(info==true){
+                $("manageClaaify").removeChild(this);
+              }else{
+                alert("删除分类失败");
+              }
+            })
+          })
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
+<!--         <div class="title">
           <sapn class="subhead">最近删除</sapn>
           <a class="entireClear">彻底清除</a>
         </div>
@@ -82,48 +195,9 @@
         </div>
         <div class="content">
           <span class="aname">文章名称</span>
+          <span id=""></span>
           <div style="margin-right:100px;width:660px;text-align:right">
              <span class="time">时间</span>
              <a href="javascript:;" class="recover">恢复</a>           
           </div>
-        </div>
-      </div>
-
-      <!--分割线-->
-      <div style="margin-bottom: 30px;" class="manageArticle">
-        <script type="text/javascript">
-          $.get("articleIdServlet",function(info){
-            var base='<div class="title"><sapn class="subhead">文章管理</sapn> </div>';
-            if(info.flag==false){
-              base+=('<span class="aname">'+木有文章+'</span>');
-            }else{
-              for(var i=0;i<info.data.length;i++){
-                base+=('<div class="content"><span class="aname">'+info.data[i].aname+'</span><div style="margin-right:100px;width:660px;text-align:right">');
-                base+=('<span class="time">'+info.data[i].time+'</span><a href="deleteArticleServlet&aid='+info.data[i].aid+'" class="recover">删除</a></div></div>');
-              }
-              $(".manageArticle").html(base);
-            }
-          })
-        </script>
-      </div>
-      <!--分割线-->
-
-      <div style="margin-bottom: 30px;" class="manageClaaify">
-        <script type="text/javascript">
-          var base='<div class="title"><sapn class="subhead">分类管理</sapn> </div><div style="color:red;margin-left: 310px;">删除分类会删除该分类下的所有文章，且不可恢复</div>';
-          $.get("cdetailServlet",function(list){
-            if(list==null){
-                base+=('<span class="aname">'+木有分类+'</span>');
-            }else{
-              for(var i=0;i<list.length;i++){
-                base+=('<div class="content"><span class="aname">'+list[i].cname+'</span><div style="margin-right:100px;width:660px;text-align:right">');
-                base+=('<a href="deleteClassifyServlet&cid='+list[i].cid+'" class="recover">删除</a></div></div>');
-              }
-              $(".manageClaaify").html(base);
-            }
-          })
-        </script>
-      </div>
-    </div>
-  </body>
-</html>
+        </div> -->

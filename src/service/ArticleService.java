@@ -45,6 +45,7 @@ public class ArticleService implements ArticleServiceInter{
 		int num=0;
 		if(art!=null){
 			num=this.dao.deleteArticle(aid);
+			System.out.println("num  :"+num);
 			if(num!=0){
 				DelArticleDao ddao=new DelArticleDao();
 				ddao.addRow(art);

@@ -5,35 +5,46 @@ import java.util.List;
 import domain.Classify;
 import dao.ClassifyDao;
 public class ClassifyService implements ClassifyServiceInter {
-
+	private ClassifyDao dao=new ClassifyDao();
 	@Override
 	public int getClassifyNumber(int uid) {
 		// TODO Auto-generated method stub
-		ClassifyDao dao=new ClassifyDao();
-		return dao.getClassifyNumber(uid);
+		
+		return this.dao.getClassifyNumber(uid);
 	}
 
 	@Override
 	public List<Classify> getClassify(int uid) {
 		// TODO Auto-generated method stub
-		ClassifyDao dao=new ClassifyDao();
-		return dao.getClassify(uid);
+		
+		return this.dao.getClassify(uid);
 	}
 
 	@Override
 	public List<Classify> getClassifyLimit(int uid,int locpage) {
-		ClassifyDao dao=new ClassifyDao();
-		return dao.getClassifyLimit(uid, locpage);
+		
+		return this.dao.getClassifyLimit(uid, locpage);
 	}
 
 	@Override
 	public Classify createClassify(String cname,int uid) {
-		ClassifyDao dao=new ClassifyDao();
+		
 		Classify classify=null;
-		int flag=dao.createClassify(cname, uid);
+		int flag=this.dao.createClassify(cname, uid);
 		if(flag!=0){
-			classify=dao.getClassifyByCname(cname);
+			classify=this.dao.getClassifyByCname(cname);
 		}
 		return classify;
+	}
+
+	@Override
+	public boolean delClassify(int cid) {
+		// TODO Auto-generated method stub
+		boolean flag=false;
+		int num=this.dao.delClassify(cid);
+		if(num!=0){
+			flag=true;
+		}
+		return flag;
 	}
 }

@@ -104,5 +104,18 @@ public class ArticleDao implements ArticleDaoInter{
 		}
 		return num;
 	}
+
+	@Override
+	public Article getArticleByAid(int aid) {
+		// TODO Auto-generated method stub
+		String sql="select * from article where aid=?";
+		Article art=null;
+		try{
+			art=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class),aid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return art;
+	}
 	
 }

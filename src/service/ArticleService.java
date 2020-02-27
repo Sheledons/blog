@@ -1,5 +1,5 @@
 package service;
-
+import dao.DelArticleDao;
 import java.util.List;
 import dao.ArticleDao;
 import domain.Article;
@@ -41,15 +41,23 @@ public class ArticleService implements ArticleServiceInter{
 
 	@Override
 	public boolean deleteArticle(int aid) {
-		int num=this.dao.deleteArticle(aid);
-		boolean flag=num==0?false:true;
+		Article art=this.dao.getArticleByAid(aid);
+		boolean flag=false;
+		int num=0;
+		if(art!=null){
+			num=this.dao.deleteArticle(aid);
+			if(num!=0){
+				DelArticleDao ddao=new DelArticleDao();
+				ddao.addColumn(art);
+				flag=true;
+			}
+		}
 		return flag;
 	}
 
 	@Override
 	public Article getArticle(int aid) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.dao.getArticleByAid(aid);
 	}
-
 }

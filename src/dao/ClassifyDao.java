@@ -76,4 +76,18 @@ public class ClassifyDao implements ClassifyDaoInter {
 		return c;
 	}
 
+	@Override
+	public int delClassify(int cid) {
+		// TODO Auto-generated method stub
+		String sql="delete from classify where cid=?";
+		int num=0;
+		try{
+			num=this.temp.update(sql,cid);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return num;
+		return false;
+	}
+
 }

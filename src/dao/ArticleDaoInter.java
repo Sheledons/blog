@@ -8,6 +8,7 @@ public interface ArticleDaoInter {
 	public List<Article> getArticleByCreate(int uid);  //按创建时间检索
 	public List<Article> getArticleById(int uid);
 	public Article getArticleNewOne(int cid);             //返回最新创建的文章
+	public Article getArticleByAid(int aid);
 	public int createArticle(Article art);
 	public int deleteArticle(int aid);
 }

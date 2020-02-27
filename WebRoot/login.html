@@ -39,6 +39,7 @@
       if(checkInputName()&&checkInputPwd()){
         $.post("loginServlet",$(".loginInfo").serialize(),function(data){
           if(data.flag){
+            console.log("成功");
             location.href="index.html"; //跳转登录成功页面
           }
           else{

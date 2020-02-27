@@ -8,4 +8,5 @@ public interface ClassifyDaoInter {
 	public List<Classify> getClassifyLimit(int uid,int locpage);
 	public int createClassify(String c,int uid);
 	public Classify getClassifyByCname(String cname);
+	public int delClassify(int cid);
 }

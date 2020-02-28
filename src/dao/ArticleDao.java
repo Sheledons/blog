@@ -111,7 +111,7 @@ public class ArticleDao implements ArticleDaoInter{
 	@Override
 	public Article getArticleByAid(int aid) {
 		// TODO Auto-generated method stub
-		String sql="select * from article where aid=?";
+		String sql="select article.* ,classify.cname from article inner join classify where article.cid=classify.cid and article.aid=?";
 		Article art=null;
 		try{
 			art=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class),aid);
@@ -132,6 +132,42 @@ public class ArticleDao implements ArticleDaoInter{
 			e.printStackTrace();
 		}
 		return aid;
+	}
+
+	@Override
+	public void addViewTimes(int aid,int orignalViewTimes) {
+		// TODO Auto-generated method stub
+		String sql="update article set viewTimes=? where aid=?";
+		this.temp.update(sql,orignalViewTimes+1,aid);
+	}
+
+	@Override
+	public int getAppointArticleNumber(int cid) {
+		// TODO Auto-generated method stub
+		String sql="select count(*) from article where cid=?";
+		int num=0;
+		try{
+			num=this.temp.queryForObject(sql,Integer.class,cid);
+			System.out.println("num:   "+num);
+		}catch(DataAccessException e){
+			System.out.println("该分类下的文章数量为零");
+			e.printStackTrace();
+		}
+		return num;
+	}
+
+	@Override
+	public List<Article> getArticleByCid(int cid,int locpage) {
+		// TODO Auto-generated method stub
+		String sql="select article.aname,article.aid,classify.cid,article.viewTimes,article.time,classify.cname from article inner join classify on article.cid=classify.cid where article.cid=? order by article.aid DESC limit ?,4";
+		int param=4*locpage-4;
+		List<Article> list=null;
+		try{
+			list=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),cid,param);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+		}
+		return list;
 	}
 	
 }

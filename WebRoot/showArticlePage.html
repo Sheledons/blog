@@ -12,16 +12,61 @@
     <script src="lib/js/editor.md-master/lib/flowchart.min.js"></script>
     <script src="lib/js/editor.md-master/lib/jquery.flowchart.min.js"></script>
     <script src="lib/js/editor.md-master/editormd.min.js"></script>
+    <style type="text/css">
+      .title,.time{
+        width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .title{
+        font-size: 40px;
+        margin-top: 70px;
+      }
+      .time{
+        font-size: 20px;
+        margin-bottom: 70px;
+      }
+      .content{
+/*        width: 100px;
+        height: 200px;*/
+/*        border: 2px red solid;*/
+        margin-left: 450px;
+        border-left: white 1px solid;
+        padding-left: 30px;
+      }
+      .return>a{
+        margin-left: 1500px;
+        text-decoration: none;
+        font-size: 22px;
+        color: #4682B4;
+      }
+    </style>
 </head>
-<body>
-  <div>
+<body style="background-color: #DCDCDC">
+  <div class="title">da</div>
+  <div class="time">
+    <span id="atime">daf</span>|
+    <span style="color:#4682B4;" id="cname">dfa</span>
+  </div>
+  </div>
+  <div class="return">
+    <a href="index.html">返回首页</a>
+  </div>
+  <hr>
+  <div class="content">
    <div id="doc-content">
     <textarea style="display:none;" class="content"></textarea>
    </div> 
   </div>
+  </div>
   <script type="text/javascript">
     $.get("readArticleServlet",function(info){
-      $(".content").html(info.content);
+      $(".title").html(info.aname);
+      $("#atime").html(info.time);
+      $("#cname").html(info.cname);
+      $("#doc-content").html(info.content);
     })
   </script>
   <script type="text/javascript">

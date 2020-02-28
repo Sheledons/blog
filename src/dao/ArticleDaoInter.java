@@ -12,4 +12,7 @@ public interface ArticleDaoInter {
 	public int createArticle(Article art);
 	public int deleteArticle(int aid);
 	public int getNewAid(int uid);
+	public void addViewTimes(int aid,int orignalViewTimes);
+	public int getAppointArticleNumber(int cid);
+	public List<Article> getArticleByCid(int cid,int locpage);
 }

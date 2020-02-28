@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import dao.ArticleDao;
 import domain.Article;
+import domain.ResultInfo;
 public class ArticleService implements ArticleServiceInter{
 	private ArticleDao dao=new ArticleDao();
 	@Override
@@ -101,5 +102,24 @@ public class ArticleService implements ArticleServiceInter{
 		// TODO Auto-generated method stub
 		DelArticleDao adao=new DelArticleDao();
 		adao.deleteAllRow(uid);
+	}
+
+	@Override
+	public Article showArticle(int aid) {
+		// TODO Auto-generated method stub
+		Article art=this.dao.getArticleByAid(aid);
+		this.dao.addViewTimes(aid, art.getViewTimes());
+		return art;
+	}
+
+	@Override
+	public ResultInfo showAppointArticle(int cid,int locpage) {
+		// TODO Auto-generated method stub
+		ResultInfo info=new ResultInfo();
+		int num=this.dao.getAppointArticleNumber(cid);
+		info.setNum(num);
+		List<Article> list=this.dao.getArticleByCid(cid,locpage);
+		info.setData(list);
+		return info;
 	}
 }

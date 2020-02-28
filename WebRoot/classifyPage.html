@@ -160,19 +160,28 @@
 	        </div>
 	 </div>
 	 <div class="rightList">
-	 	<div class="rightTitle">分类</div>
+	 	<div class="rightTitle" id="">分类</div>
 	 	<!--异步获取分类信息的时候，将cid填入盒子中，然后分别异步获取文章-->
 	 	<!--每页的每个分类只显示一篇文章，点击全部才会显示一个分类的全部文章-->
 	 	<!--display显示为none-->
 	 	<div class="rightContent">		
 	 	</div> 
 	 		<div class="pageNum">
-<!-- 	 		<span id="button">1</span>
-	 			<span>2</span>
-	 			<span>3</span>
-	 			<button style="margin-left: 380px"><<</button>
-	 			<button>>></button> -->
 	 		</div>		
+	 		<script type="text/javascript">
+	 			var createContent=function(info){
+					var con="";
+					for(var j=0;j<info[0].length;j++){
+						con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a class="showAll" href="javascript:;" data-id='+info[0][j].cid+'>显示全部文章</a></div><div class="aname">'
+						if(info[1][j]!=null){
+							con+='<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>";
+						}else{
+							con+='<div class="aname" style="margin-bottom:15px;">木有文章哦</div></div>';
+						}
+					}
+					$(".rightContent").html(con);	 				
+	 			}
+	 		</script>
 	 		<script type="text/javascript">
 		 			var pageNum;
 		 			//如果 pageNum 得不到数据，那么将请求放入 第一个get中
@@ -187,19 +196,7 @@
 		 			})
 		 			//展示第一页
 					$.get("cshowServlet",{locpage:1},function(info){
-						var con="";
-						for(var j=0;j<info[0].length;j++){
-							con+='<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">'
-							if(info[1][j]!=null){
-								con+='<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>";
-							}else{
-								con+='<div class="aname" style="margin-bottom:15px;">木有文章哦</div></div>';
-							}
-							if(j==3){
-								break;
-							}
-						}
-						$(".rightContent").html(con);
+						createContent(info);
 					})
 	 		</script>
 	 		<script type="text/javascript">
@@ -213,20 +210,60 @@
 	 				console.log(this.innerHTML);
 	 				this.style.backgroundColor="white";
 	 				$.get("cshowServlet",{locpage:this.innerHTML},function(info){
-						var con="";
-						for(var j=0;j<info[0].length;j++){
-							con+=('<div class="display"><div class="cname">'+info[0][j].cname+'<a href="javascript:;">显示全部文章</a></div><div class="aname">');
-							if(info[1][j]!=null){
-								con+=('<a href="javascript:;">'+info[1][j].aname+'</a><br><span class="atime">'+info[1][j].time+'/</span><span>阅读次数：'+info[1][j].viewTimes+"</span></div></div>");
-							}else{
-								con+=('<div class="aname " style="margin-bottom:15px;">木有文章哦</div></div>');
-							}
-							if(j==3){
-								break;
-							}
-						}
-	 					$(".rightContent").html(con);	 				
+	 					createContent(info); 				
 	 				})
+	 			})
+	 		</script>
+	 		<script type="text/javascript">
+	 			var create=function(info){
+	 				base="";
+ 					for(var i=0;i<info.data.length;i++){
+ 						base+=("<div class='aname'><a href='javascript' class='showArticle' data-id="+info.data[i].aid+">"+info.data[i].aname+"</a><br><span class='atime'>"+info.data[i].time+"/</span><span>阅读次数： "+info.data[i].viewTimes+"</span></div>");
+ 					}
+ 					$(".rightContent").html(base);	 				
+	 			}
+	 		</script>
+	 		<script type="text/javascript">
+	 			$(".rightContent").on("click",".showAll",function(){
+	 				$.get("showAppointArticleServlet",{cid:this.getAttribute("data-id"),locpage:1},function(info){
+	 					//返回该指定分类文章的第一页的文章(4篇)，和文章总数量，来生成页数
+		 				pageNum=info.num%4==0?info.num/4:parseInt(info.num/4+1);
+		 				var base="";
+		 				for(var i=0;i<pageNum;i++){
+		 					base+="<a href='javascript:;' id='newbutton'>"+(i+1)+"</a>";
+		 				}
+		 				$(".pageNum").html(base);
+		 				//写入第一页内容
+		 				base="";
+		 				if(info.data.length==0){
+		 					base='<div class="display"><div class="cname">该分类下木有文章</div>';
+		 					$(".rightContent").html(base);	 
+		 				}else{
+		 					$(".rightTitle").html(info.data[0].cname);
+		 					$(".rightTitle").attr("id",info.data[0].cid);
+		 					create(info);
+		 				}
+	 				})
+	 			})
+	 		</script>
+	 		<script type="text/javascript">
+	 			$(".pageNum").on("click","#newbutton",function(){
+	 				for(var i=0;i<$(".pageNum").children().length;i++){
+	 			//		console.log($(".pageNum").children()[0]);
+	 			       $(".pageNum").children()[i].style.backgroundColor="#4682B4";
+	 				}
+	 				console.log(this.innerHTML);
+	 				this.style.backgroundColor="white";	 
+	 				$.get("showAppointArticleServlet",{cid:$(".rightTitle").attr("id"),locpage:this.innerHTML},function(info){
+	 					create(info);
+	 				})				
+	 			})
+	 		</script>
+	 		<script type="text/javascript">
+	 			$(".rightContent").on("click",".showArticle",function(){
+					$.get("readArticleServlet",{aid:this.getAttribute("data-id")},function(info){
+						location.href=info;
+					})
 	 			})
 	 		</script>
 	 </div>
@@ -238,7 +275,6 @@
 	 	/*
 	 	为每个分类添加显示全部内容的按钮
 	 	*/
-
 	 </script>
 	 <!-- <span></span> -->
 </body>

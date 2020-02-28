@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ShowArticleFilter implements Filter {
 
 	@Override
@@ -25,12 +27,20 @@ public class ShowArticleFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpSession session=((HttpServletRequest) request).getSession();
-		int aid;
+		int aid=0;
 		try{
-			aid=Integer.parseInt((String)session.getAttribute("aid"));
-			session.setAttribute("aid",request.getParameter("aid"));
-			((HttpServletResponse)response).sendRedirect("showArticlePage.html");
+			aid=Integer.parseInt((String)request.getParameter("aid"));
+			session.setAttribute("aid",aid);
+			System.out.println("aid : "+aid);
+			HttpServletResponse resp=(HttpServletResponse)response;
+			ObjectMapper mapper=new ObjectMapper();
+			resp.setContentType("application/json;charset=utf-8");
+			mapper.writeValue(resp.getOutputStream(),"showArticlePage.html");
 		}catch(NumberFormatException e){
+			System.out.println("NumberFormatException");
+			chain.doFilter(request,response);
+		}catch(NullPointerException n){
+			System.out.println("NullPointerException");
 			chain.doFilter(request,response);
 		}
 	}

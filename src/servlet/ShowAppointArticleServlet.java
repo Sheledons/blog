@@ -13,10 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
 
-import domain.Article;
+import domain.ResultInfo;
 import domain.User;
 
-public class ReadArticleServlet extends HttpServlet {
+public class ShowAppointArticleServlet extends HttpServlet {
 
 	/**
 	 * The doGet method of the servlet. <br>
@@ -30,14 +30,22 @@ public class ReadArticleServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		User user=(User)request.getAttribute("user");
+
+		response.setContentType("text/html");
 		HttpSession session=request.getSession();
-		Integer aid=(Integer)session.getAttribute("aid");
+		User user=(User)session.getAttribute("user");
 		ArticleService service=new ArticleService();
-		Article art=service.showArticle(aid);
+		ResultInfo info=null;
+		try{
+			int locpage=Integer.parseInt(request.getParameter("locpage"));
+			int cid=Integer.parseInt(request.getParameter("cid"));			
+			info=service.showAppointArticle(cid, locpage);
+		}catch(NumberFormatException e){
+			
+		}
+		response.setContentType("application/json;charset=utf-8");
 		ObjectMapper mapper=new ObjectMapper();
-		response.setContentType("appication/json;charset=utf-8");
-		mapper.writeValue(response.getOutputStream(),art);
+		mapper.writeValue(response.getOutputStream(),info);
 	}
 
 }

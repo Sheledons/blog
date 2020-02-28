@@ -260,36 +260,7 @@
 		<div class="right"></div>
 		<div class="pageNum"></div>
 	<script type="text/javascript">
-		$(".pageNum").on("click","#button",function(){
-			console.log("button ");
-				for(var i=0;i<$(".pageNum").children().length;i++){
-			//		console.log($(".pageNum").children()[0]);
-			       $(".pageNum").children()[i].style.backgroundColor="#4682B4";
-				}
-				this.style.backgroundColor="white";		
-				$.get("articleByCreateServlet",{locpage:this.innerHTML},function(info){
-					var base='<div class="rightTitle">文章</div>';
-				if(info==null){
-					base+="<div class='rightContent'><div class='articleTitle'>您还木有文章哦！</div></div>";
-					base+="<div><a href='#' style='text-decoration:none;color:#1E90FF;'>点击此处添加文章<div>"
-				}else{
-					for(var i=0;i<info.length;i++){
-						base+='<div class="rightContent" id='+info[i].aid+'><div class="articleTitle">'+info[i].aname+'</div>'
-						base+='<div class="rightSummary"><span>'+info[i].time+'&nbsp;&nbsp|&nbsp;&nbsp</span>';
-						base+='<span>'+info[i].cname+"&nbsp;&nbsp|&nbsp;&nbsp</span>";
-						base+="<span>阅读次数:"+info[i].viewTimes+"</span></div>";
-						base+="<div><p>"+info[i].content.substring(0,30)+"</p></div>";
-						base+="<div><a href='readArticleServlet&aid="+info[i].aid+"' >阅读全文</a></div></div>"
-						//阅读全文，以get方式发送请求，参数为aid
-					}
-					console.log("base  :"+base);
-					$(".right").html(base);
-				}		 					
-				})					
-		})
-	</script>
-	<script type="text/javascript">
-		$.get("articleByCreateServlet",{locpage:1},function(info){
+		var showA=function(info){
 			var base='<div class="rightTitle">文章</div>';
 			if(info==null){
 				base+="<div class='rightContent'><div class='articleTitle'>您还木有文章哦！</div></div>";
@@ -301,12 +272,40 @@
 					base+='<span>'+info[i].cname+"&nbsp;&nbsp|&nbsp;&nbsp</span>";
 					base+="<span>阅读次数:"+info[i].viewTimes+"</span></div>";
 					base+="<div><p>"+info[i].content.substring(0,30)+"</p></div>";
-					base+="<div><a href='readArticleServlet&aid="+info[i].aid+"' >阅读全文</a></div></div>"
+					base+="<div><a class='read' href='javascript:;' data-id="+info[i].aid+">阅读全文</a></div></div>"
 					//阅读全文，以get方式发送请求，参数为aid
+				}	
+			}
+			$(".right").html(base);
+		}
+	</script>
+	<script type="text/javascript">
+		$(".pageNum").on("click","#button",function(){
+			console.log("button ");
+				for(var i=0;i<$(".pageNum").children().length;i++){
+			//		console.log($(".pageNum").children()[0]);
+			       $(".pageNum").children()[i].style.backgroundColor="#4682B4";
 				}
-				$(".right").html(base);
-			}		 					
+				this.style.backgroundColor="white";		
+				$.get("articleByCreateServlet",{locpage:this.innerHTML},function(info){
+				    showA(info);		 					
+				})					
+		})
+	</script>
+
+	<script type="text/javascript">
+		$.get("articleByCreateServlet",{locpage:1},function(info){
+		 		showA(info);
 			})	
+	</script>
+	<script type="text/javascript">
+		window.onload=function(){
+	    $(".right").on("click",".read",function(){
+			$.get("readArticleServlet",{aid:this.getAttribute("data-id")},function(info){
+				location.href=info;
+			})
+		})		
+		}
 	</script>
 </body>
 </html>

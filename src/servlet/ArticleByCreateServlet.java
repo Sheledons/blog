@@ -33,8 +33,9 @@ public class ArticleByCreateServlet extends HttpServlet {
 		ArticleService service=new ArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
+		int locpage=Integer.parseInt(request.getParameter("locpage"));
 		List<Article> list=null;
-		list=service.getArticleByCreate(user.getUid());
+		list=service.getArticleByCreate(user.getUid(),locpage);
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),list);

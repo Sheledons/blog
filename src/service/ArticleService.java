@@ -21,8 +21,8 @@ public class ArticleService implements ArticleServiceInter{
 	}
 
 	@Override
-	public List<Article> getArticleByCreate(int uid) {
-		return this.dao.getArticleByCreate(uid);
+	public List<Article> getArticleByCreate(int uid,int locpage) {
+		return this.dao.getArticleByCreate(uid,locpage);
 	}
 
 	@Override

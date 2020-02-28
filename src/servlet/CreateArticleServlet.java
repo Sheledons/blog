@@ -49,15 +49,7 @@ public class CreateArticleServlet extends HttpServlet {
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-//		String aname=request.getParameter("aname");
-//		String content=request.getParameter("my-editormd-html-code");
-//		String cid=request.getParameter("classifyId");
-//		System.out.println("aname  "+atitle);
-//		System.out.println("content  "+content);
-//		System.out.println("cid  "+cid);
-//		art.setUid(user.getUid());
-//		System.out.println("aname  "+art.getAname());
+		}
 		int flag=service.createArticle(art);
 		ObjectMapper mapper=new ObjectMapper();
 		response.setContentType("application/json;charset=utf-8");

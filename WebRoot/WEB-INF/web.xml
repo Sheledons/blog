@@ -6,6 +6,10 @@
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
   <display-name></display-name>
   <filter>
+  <filter-name>ShowArticleFilter</filter-name>
+  <filter-class>filter.ShowArticleFilter</filter-class>
+  </filter>
+  <filter>
   	<filter-name>SetCharacterFilter</filter-name>
   	<filter-class>filter.SetCharacterFilter</filter-class>
   </filter>
@@ -111,6 +115,12 @@
     <servlet-name>DeleteClassify</servlet-name>
     <servlet-class>servlet.DeleteClassify</servlet-class>
   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ReadArticleServlet</servlet-name>
+    <servlet-class>servlet.ReadArticleServlet</servlet-class>
+  </servlet>
 
 
 
@@ -128,6 +138,10 @@
 
 
 
+  <filter-mapping>
+  <filter-name>ShowArticleFilter</filter-name>
+  <url-pattern>/readArticleServlet</url-pattern>
+  </filter-mapping>
   <filter-mapping>
   	<filter-name>SetCharacterFilter</filter-name>
   	<url-pattern>/*</url-pattern>
@@ -199,6 +213,10 @@
   <servlet-mapping>
     <servlet-name>DeleteClassify</servlet-name>
     <url-pattern>/deleteClassify</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReadArticleServlet</servlet-name>
+    <url-pattern>/readArticleServlet</url-pattern>
   </servlet-mapping>	
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

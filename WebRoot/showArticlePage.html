@@ -2,135 +2,40 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>articlePage</title>
-  <link rel="stylesheet" href="lib/js/editor.md-master/css/editormd.css" />
-  <script src="lib/js/jquery-3.4.1.js"></script>
-  <script src="lib/js/editor.md-master/editormd.min.js"></script>
-  <style type="text/css">
-    .aname{
-      width: 1600px;
-      height: 100px;
-      margin-left: 120px;
-      background-color: #DCDCDC;
-      margin-bottom: 30px;
-      margin-top: 30px;
-    }
-    #atitle{
-      margin-top: 30px;
-      margin-left: 60px;
-      width: 600px;
-      height: 50px;
-      border: 2px solid white;
-      font-size: 30px;
-      font-family: inherit;
-    }
-    .aname>#create{
-      background-color: #1E90FF;
-      width: 90px;
-      height: 40px;
-      margin-left: 300px;
-    }
-    .aname>#classify{
-      width: 80px;
-      height: 20px;
-      background-color: unset;
-      display: inline-block;
-    }
-    select{
-      width: 100px;
-      height: 30px;
-      margin-left: 30px;
-    }
-    .createClassify{
-      color: black;
-      display: inline-block;
-    }
-    .newc{
-      color: red;
-    }
-  </style>
+    <title></title>
+    <script src="lib/js/jquery-3.4.1.js"></script>
+    <script src="lib/js/editor.md-master/lib/marked.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/prettify.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/raphael.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/underscore.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/sequence-diagram.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/flowchart.min.js"></script>
+    <script src="lib/js/editor.md-master/lib/jquery.flowchart.min.js"></script>
+    <script src="lib/js/editor.md-master/editormd.min.js"></script>
 </head>
-<body style="background-color:white">
-  <div class="aname">
-    <input type="text" name="aname" placeholder="文章标题" id="atitle">
-    <select class="classify">
-      <option id="">1</option>
-      <option id="">2</option>
-    </select>
-<!--     <script type="text/javascript">
-      var se=document.querySelector("select");
-      var index=se.selectedIndex;
-      console.log(se.options[index].value);
-    </script> -->
-    <div id="classify">分类</div>
-    <div class="createClassify"><button>新建分类</button></div>
-     <input type="" name="" placeholder="输入分类名称" id="newc">
-    <button id="create">发布文章</button> 
+<body>
+  <div>
+   <div id="doc-content">
+    <textarea style="display:none;" class="content"></textarea>
+   </div> 
   </div>
-  <div id="layout" class="editor">
-    <div id="test-editormd">
-        <textarea></textarea>
-    </div>
-</div>
-<script type="text/javascript">
-  //创建分类
-  $(".createClassify").click(function(){
-    if($("#newc").val()!=null){
-      $.post("createClassifyServlet",{cname:$("#newc").val()},function(info){
-        //返回 cid,cname
-        var sel=document.querySelector(".classify");
-        var option=document.createElement("option");
-        option.id=info.data.cid;
-        option.innerHTML=info.data.cname;
-        sel.insertBefore(option,sel.children[0]);
-      })
-    }
-  })
-  $("#create").click(function(){
-    var title=$("#atitle").val();
-    var content=$("textarea").html();
-    var select=document.querySelector("select");
-    var index=select.selectedIndex;
-    var cid=select.options[index].id;
-    if(title==null){
-      alert("文章标题不可以为空");
-    }else{
-      $.post("createArticleServlet",{aname:title,content:content,cid:cid},function(info){
-        //返回值为true或者false,viewTimes,等参数dao层添加
-        if(info==true){
-          alert("创建成功");
-          location.href="blog/createArticle.html";
-        }else{
-          alert("创建失败");
-        }
-      })
-    }
-  })
-</script>
-<script type="text/javascript">
-  var testEditor;
-  testEditor = editormd("test-editormd", {
-       placeholder:'本编辑器支持Markdown编辑，左边编写，右边预览',  //默认显示的文字，这里就不解释了
-       width: "90%",
-       height: 640,
-       syncScrolling: "single",  
-       path: "lib/js/editor.md-master/lib/",   //你的path路径（原资源文件中lib包在我们项目中所放的位置）
-       theme: "dark",//工具栏主题
-       previewTheme: "dark",//预览主题
-       editorTheme: "pastel-on-dark",//编辑主题
-       saveHTMLToTextarea: true,
-       emoji: false,
-       taskList: true, 
-       tocm: true,         // Using [TOCM]
-       tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-       flowChart: true,             // 开启流程图支持，默认关闭
-       sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-       toolbarIcons : function() {  //自定义工具栏，后面有详细介绍
-           return editormd.toolbarModes['simple']; // full, simple, mini
-        },
-  });
-  //上面的挑有用的写上去就行
-  // testEditor.getMarkdown();  
-</script>
+  <script type="text/javascript">
+    $.get("readArticleServlet",function(info){
+      $(".content").html(info.content);
+    })
+  </script>
+  <script type="text/javascript">
+    var testEditor;
+    $(function () {
+        testEditor = editormd.markdownToHTML("doc-content", {//注意：这里是上面DIV的id
+            htmlDecode: "style,script,iframe",
+            emoji: true,
+            taskList: true,
+            tex: true, // 默认不解析
+            flowChart: true, // 默认不解析
+            sequenceDiagram: true, // 默认不解析
+            codeFold: true,
+    });});
+ </script>
 </body>
 </html>

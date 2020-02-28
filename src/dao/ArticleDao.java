@@ -42,7 +42,7 @@ public class ArticleDao implements ArticleDaoInter{
 	@Override
 	public List<Article> getArticleByCreate(int uid,int locpage) {
 //		String sql="select * from article where uid=? order by aid DESC"; //°´aid ½µÐò
-		String sql="select article.aid,article.time,article.content,article.viewTimes,article.aname,classify.cname from article inner join classify on article.cid=classify.cid where article.uid=? order by article.aid DESC limit ?,4";
+		String sql="select article.aid,article.time,article.viewTimes,article.aname,classify.cname from article inner join classify on article.cid=classify.cid where article.uid=? order by article.aid DESC limit ?,4";
 		int param=4*locpage-4;
 		List<Article> art=null;
 		try{

@@ -202,7 +202,7 @@
 					<div><a href="classifyPage.html">分类</a></div>
 					<div><a href="createArticle.html" style="margin-left:94px">添加文章</a></div>
 					<div><a href="manage.html" style="margin-left:94px">文章管理</a></div>
-					<div><a href="" style="margin-left:94px">关于博主</a></div>
+					<div><a href="aboutme.html" style="margin-left:94px">关于博主</a></div>
 				</div>
 				<div class="bottomClassify">
 					<script type="text/javascript">
@@ -282,7 +282,7 @@
 					base+='<div class="rightSummary"><span>'+info[i].time+'&nbsp;&nbsp|&nbsp;&nbsp</span>';
 					base+='<span>'+info[i].cname+"&nbsp;&nbsp|&nbsp;&nbsp</span>";
 					base+="<span>阅读次数:"+info[i].viewTimes+"</span></div>";
-					base+="<div><p>"+info[i].content.substring(0,30)+"</p></div>";
+					// base+="<div><p>"+info[i].content.substring(0,)+"</p></div>";
 					base+="<div><a class='read' href='javascript:;' data-id="+info[i].aid+">阅读全文</a></div></div>"
 					//阅读全文，以get方式发送请求，参数为aid
 				}	

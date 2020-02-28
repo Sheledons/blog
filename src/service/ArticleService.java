@@ -1,5 +1,7 @@
 package service;
 import dao.DelArticleDao;
+
+import java.util.Date;
 import java.util.List;
 import dao.ArticleDao;
 import domain.Article;
@@ -30,6 +32,12 @@ public class ArticleService implements ArticleServiceInter{
 
 	@Override
 	public int createArticle(Article art) {
+		Date date=new Date();
+		int year=date.getYear()+1900;
+		int month=date.getMonth()+1;
+		int day=date.getDate();
+		String time=year+"-"+month+"-"+day;
+		art.setTime(time);
 		return this.dao.createArticle(art);
 	}
 

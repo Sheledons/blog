@@ -24,7 +24,7 @@
       font-size: 30px;
       font-family: inherit;
     }
-    .aname>#create{
+    .aname>.submit{
       background-color: #1E90FF;
       width: 90px;
       height: 40px;
@@ -49,36 +49,59 @@
       color: red;
     }
     #return{
-	    color: #1E90FF;
-	    text-decoration: none;
-	    margin-left: 20px;
+      color: #1E90FF;
+      text-decoration: none;
+      margin-left: 20px;
     }
   </style>
 </head>
 <body style="background-color:white">
+<!--插入一-->
+<form action="" method="post" class="forms">
   <div class="aname">
     <input type="text" name="aname" placeholder="文章标题" id="atitle">
     <select class="classify">
-<!--       <option id="">1</option>
-      <option id="">2</option> -->
     </select>
-<!--     <script type="text/javascript">
-      var se=document.querySelector("select");
-      var index=se.selectedIndex;
-      console.log(se.options[index].value);
-    </script> -->
     <div id="classify">分类</div>
     <div class="createClassify"><button>新建分类</button></div>
-     <input type="" name="" placeholder="输入分类名称" id="newc">
-    <button id="create">发布文章</button> 
+    <input type="text" name="cid" style="display: none" class="classifyId">
+    <input type="" name="" placeholder="输入分类名称" id="newc">
+    <button class="submit" type="button">发布文章</button> 
     <a href="index.html" id="return">返回首页</a>
   </div>
-  <div id="layout" class="editor">
-    <div id="test-editormd">
-        <textarea></textarea>
+    <div id="my-editormd" >
+    <textarea id="my-editormd-markdown-doc" name="my-editormd-markdown-doc" style="display:none;"></textarea>
+    <!-- 注意：name属性的值-->
+   <!--  <textarea id="my-editormd-html-code" name="my-editormd-html-code" style="display:none;"></textarea> -->
     </div>
-</div>
+  </form>
+<!--插入二-->
 <script type="text/javascript">
+  var testEditor;
+  testEditor = editormd("my-editormd", {
+       placeholder:'本编辑器支持Markdown编辑，左边编写，右边预览',  //默认显示的文字，这里就不解释了
+       width: "90%",
+       height: 640,
+       syncScrolling: "single",  
+       path: "lib/js/editor.md-master/lib/",   //你的path路径（原资源文件中lib包在我们项目中所放的位置）
+       theme: "dark",//工具栏主题
+       previewTheme: "dark",//预览主题
+       editorTheme: "pastel-on-dark",//编辑主题
+       saveHTMLToTextarea: true,
+       emoji: false,
+       taskList: true, 
+       tocm: true,         // Using [TOCM]
+       tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+       flowChart: true,             // 开启流程图支持，默认关闭
+       sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+       toolbarIcons : function() {  //自定义工具栏，后面有详细介绍
+           return editormd.toolbarModes['simple']; // full, simple, mini
+        },
+  });
+  //上面的挑有用的写上去就行
+  // testEditor.getMarkdown();  
+</script>
+ <script type="text/javascript">
   //获取分类，填入select元素中
   $.get("cdetailServlet",{},function(info){
     var select=document.querySelector(".classify");
@@ -106,21 +129,17 @@
       })
     }
   })
-  $("#create").click(function(){
+  $(".submit").click(function(){
     var title=$("#atitle").val();
     var content=$("textarea").html();
     var select=document.querySelector("select");
     var index=select.selectedIndex;
     var cid=select.options[index].id;
+    $(".classifyId").val(cid);
     if(title==null){
       alert("文章标题不可以为空");
     }else{
-      var date=new Date();
-      var year=date.getFullYear();
-      var month=date.getMonth();
-      var day=date.getDate();
-      var time=year+"-"+month+"-"+day;
-      $.post("createArticleServlet",{aname:title,content:content,cid:cid,time:time},function(info){
+      $.post("createArticleServlet",$(".forms").serialize(),function(info){
         //返回值为true或者false,viewTimes,等参数dao层添加
         if(info==true){
           alert("创建成功");
@@ -132,30 +151,6 @@
     }
   })
 </script>
-<script type="text/javascript">
-  var testEditor;
-  testEditor = editormd("test-editormd", {
-       placeholder:'本编辑器支持Markdown编辑，左边编写，右边预览',  //默认显示的文字，这里就不解释了
-       width: "90%",
-       height: 640,
-       syncScrolling: "single",  
-       path: "lib/js/editor.md-master/lib/",   //你的path路径（原资源文件中lib包在我们项目中所放的位置）
-       theme: "dark",//工具栏主题
-       previewTheme: "dark",//预览主题
-       editorTheme: "pastel-on-dark",//编辑主题
-       saveHTMLToTextarea: true,
-       emoji: false,
-       taskList: true, 
-       tocm: true,         // Using [TOCM]
-       tex: true,                   // 开启科学公式TeX语言支持，默认关闭
-       flowChart: true,             // 开启流程图支持，默认关闭
-       sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
-       toolbarIcons : function() {  //自定义工具栏，后面有详细介绍
-           return editormd.toolbarModes['simple']; // full, simple, mini
-        },
-  });
-  //上面的挑有用的写上去就行
-  // testEditor.getMarkdown();  
-</script>
+
 </body>
 </html>

@@ -33,7 +33,6 @@ public class Aboutme extends HttpServlet {
 		art=service.getArticle(64);
 		response.setContentType("application/json;charset=utf-8");
 		ObjectMapper mapper=new ObjectMapper();
-		
 		mapper.writeValue(response.getOutputStream(),art);
 	}
 

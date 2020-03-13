@@ -1,5 +1,8 @@
+
+#### javaweb初学者，有很多的缺陷
+
 # blog
-javaWEBliu
+javaWEB    ------》本项目对service层调用dao层没有使用事务管理，后续修改
 ## 一个简陋的javaWeb的博客系统，谷歌浏览器下使用
 ##### 注：本项目代码没有十分规范，在于练习 servlet和jdbc，没有用到jsp
 #####实现功能：

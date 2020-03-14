@@ -9,6 +9,7 @@ import beanFactory.BeanFactory;
 import service.UserService;
 import service.UserServiceInter;
 import transaction.TransactionManager;
+import utils.ConnectionUtils;
 
 public class UserServiceProxy {
 	private UserServiceInter service=new UserService();
@@ -22,6 +23,7 @@ public class UserServiceProxy {
 				Object object=null;
 				try{
 					TransactionManager.startTransaction();
+//					System.out.println(ConnectionUtils.getConnection());
 					object=method.invoke(service, args);
 					TransactionManager.commit();
 				}catch(Exception e){

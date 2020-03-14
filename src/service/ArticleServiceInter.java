@@ -19,7 +19,7 @@ public interface ArticleServiceInter {
 
 	public Article getArticle(int aid);
 
-	public Long createArticle(Article art);
+	public int createArticle(Article art);
 
 	public Article deleteArticle(int aid, int uid);
 

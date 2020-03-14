@@ -32,4 +32,9 @@ public class Classify {
 	public int getCnumber() {
 		return cnumber;
 	}
+	@Override
+	public String toString() {
+		return "Classify [cid=" + cid + ", cnumber=" + cnumber + ", cname="
+				+ cname + ", uid=" + uid + "]";
+	}
 }

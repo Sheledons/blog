@@ -11,6 +11,7 @@ import beanFactory.BeanFactory;
 import service.ArticleService;
 import service.ArticleServiceInter;
 import transaction.TransactionManager;
+import utils.ConnectionUtils;
 
 public class ArticleServiceProxy {
 	private ArticleService article;
@@ -26,6 +27,7 @@ public class ArticleServiceProxy {
 				Object object=null;
 				try{
 					TransactionManager.startTransaction();
+//					System.out.println(ConnectionUtils.getConnection());
 					article.setDao(dao);
 					object=method.invoke(article, args);
 					TransactionManager.commit();

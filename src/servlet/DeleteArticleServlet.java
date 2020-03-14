@@ -46,7 +46,11 @@ public class DeleteArticleServlet extends HttpServlet {
 		try{
 			Integer aid=Integer.parseInt(request.getParameter("aid"));
 			a=service.deleteArticle(aid,uid);
-			info.setFlag(true);
+			if(a==null){
+				info.setFlag(false);
+			}else{
+				info.setFlag(true);
+			}
 			a.setContent(null);
 			a.setViewTimes(0);
 			info.setData(a);

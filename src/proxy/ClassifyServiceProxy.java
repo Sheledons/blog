@@ -11,6 +11,7 @@ import beanFactory.BeanFactory;
 import service.ClassifyService;
 import service.ClassifyServiceInter;
 import transaction.TransactionManager;
+import utils.ConnectionUtils;
 
 public class ClassifyServiceProxy {
 	private ClassifyServiceInter classify;
@@ -26,6 +27,7 @@ public class ClassifyServiceProxy {
 				Object object=null;
 				try{
 					TransactionManager.startTransaction();
+//					System.out.println(ConnectionUtils.getConnection());
 					classify.setDao(dao);
 					object=method.invoke(classify, args);
 					TransactionManager.commit();

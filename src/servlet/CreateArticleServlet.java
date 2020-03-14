@@ -55,7 +55,7 @@ public class CreateArticleServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		long flag=service.createArticle(art);
+		int flag=service.createArticle(art);
 		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),flag);

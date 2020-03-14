@@ -9,4 +9,6 @@ public interface ClassifyDaoInter {
 	public int createClassify(String c,int uid);
 	public Classify getClassifyByCname(String cname);
 	public int delClassify(int cid);
+	public int addCnumber(int cnumber,int cid);
+	public int getClassifyCnumber(int cid);
 }

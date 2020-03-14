@@ -3,12 +3,13 @@ package domain;
 public class ResultInfo {
 	private boolean flag;
 	private Object data;
-	private Long num;
-	public Long getNum() {
+	private Object num;
+	
+	public Object getNum() {
 		return num;
 	}
-	public void setNum(Long num2) {
-		this.num = num2;
+	public void setNum(Object num) {
+		this.num = num;
 	}
 	public ResultInfo() {
 		// TODO Auto-generated constructor stub

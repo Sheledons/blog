@@ -1,4 +1,6 @@
 package service;
+import dao.ClassifyDao;
+import dao.ClassifyDaoInter;
 import dao.DelArticleDao;
 
 import java.util.Date;
@@ -19,10 +21,8 @@ public class ArticleService implements ArticleServiceInter{
 		Long number=this.dao.getNumber(uid);
 		return number;
 	}
-
 	@Override
-	public List<Article> getArticleByTimes(int uid) {
-		
+	public List<Article> getArticleByTimes(int uid) {	
 		return this.dao.getArticleByTimes(uid);
 	}
 
@@ -39,15 +39,22 @@ public class ArticleService implements ArticleServiceInter{
 	}
 
 	@Override
-	public Long createArticle(Article art) {
-		
+	public int createArticle(Article art) {
+		ClassifyDaoInter cdao=(ClassifyDao)BeanFactory.getBean("classifyDao");
 		Date date=new Date();
 		int year=date.getYear()+1900;
 		int month=date.getMonth()+1;
 		int day=date.getDate();
 		String time=year+"-"+month+"-"+day;
 		art.setTime(time);
-		return this.dao.createArticle(art);
+		int flag=this.dao.createArticle(art);
+		System.out.println(art);
+		if(flag!=0){
+			int cnumber=cdao.getClassifyCnumber(art.getCid());
+//			System.out.println("cnumber  "+cnumber);
+			flag=cdao.addCnumber(cnumber+1, art.getCid());
+		}
+		return flag;
 	}
 
 	@Override
@@ -61,15 +68,19 @@ public class ArticleService implements ArticleServiceInter{
 		Article art=this.dao.getArticleByAid(aid);
 		int num=0;
 		if(art!=null){
-			num=this.dao.deleteArticle(aid);
-			System.out.println("num  :"+num);
-			if(num!=0){
-				DelArticleDao ddao=new DelArticleDao();
-				ddao.addRow(art);
-				Long daid=ddao.getNewAid(uid);
-				art.setAid(daid);
-//				rart=ddao.getDelArticleOne(daid);
-//				rart.setContent(null);
+			System.out.println("art  "+art);
+			try{
+				num=this.dao.deleteArticle(aid); 
+				if(num!=0){
+					DelArticleDao ddao=(DelArticleDao)BeanFactory.getBean("delArticleDao");
+					ddao.addRow(art);
+					int daid=ddao.getNewAid(uid);
+					art.setAid(daid);
+				}
+			}catch(Exception e){
+				System.out.println(e);
+				art=null;
+				throw new RuntimeException("´íÎó");
 			}
 		}
 		return art;
@@ -116,7 +127,7 @@ public class ArticleService implements ArticleServiceInter{
 	public Article showArticle(int aid) {
 		// TODO Auto-generated method stub
 		Article art=this.dao.getArticleByAid(aid);
-		this.dao.addViewTimes(aid, art.getViewTimes());
+		this.dao.addViewTimes(aid, art.getViewTimes()+1);
 		return art;
 	}
 

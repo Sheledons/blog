@@ -1,7 +1,7 @@
 package domain;
 
 public class Article {
-	private Long aid;
+	private int aid;
 	private int uid;
 	private String aname;
 	private String time;
@@ -24,10 +24,10 @@ public class Article {
 	public String getAname() {
 		return aname;
 	}
-	public Long getAid() {
+	public int getAid() {
 		return aid;
 	}
-	public void setAid(Long long1) {
+	public void setAid(int long1) {
 		this.aid = long1;
 	}
 	public int getUid() {
@@ -60,4 +60,11 @@ public class Article {
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
+	@Override
+	public String toString() {
+		return "Article [aid=" + aid + ", uid=" + uid + ", aname=" + aname
+				+ ", time=" + time + ", viewTimes=" + viewTimes + ", content="
+				+ content + ", cid=" + cid + ", cname=" + cname + "]";
+	}
+	
 }

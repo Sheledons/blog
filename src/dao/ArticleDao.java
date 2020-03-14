@@ -43,6 +43,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			art=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),uid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return art;
@@ -57,6 +58,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),uid,param);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return art;
@@ -70,6 +72,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),cid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥–– ß∞‹");
 			
 		}
@@ -77,21 +80,21 @@ public class ArticleDao implements ArticleDaoInter{
 	}
 
 	@Override
-	public Long createArticle(Article art) {
+	public int createArticle(Article art) {
 		// TODO Auto-generated method stub
-		Long aid=art.getAid();
 		String sql;
 		sql="insert into article(uid,time,cid,content,viewTimes,aname) values(?,?,?,?,0,?)";
-		Object [] params={art.getAid(),art.getTime(),art.getCid(),art.getContent(),art.getViewTimes(),art.getAname()};
-		Long flag;
+		Object [] params={art.getUid(),art.getTime(),art.getCid(),art.getContent(),art.getAname()};
+		int flag;
 		try{
-			flag=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),params);
+			System.out.println("runner  "+runner);
+			flag=runner.update(ConnectionUtils.getConnection(),sql,params);		
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return flag;
 	}
-
 	@Override
 	public List<Article> getArticleById(int uid) {
 		// TODO Auto-generated method stub
@@ -100,6 +103,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),uid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;
@@ -113,6 +117,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			num=runner.update(ConnectionUtils.getConnection(),sql, aid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
@@ -126,19 +131,21 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),aid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return art.get(0);
 	}
 
 	@Override
-	public Long getNewAid(int uid) {
+	public int getNewAid(int uid) {
 		// TODO Auto-generated method stub
 		String sql="select aid from article where uid=? order by aid DESC limit 1";
-		Long aid=0l;
+		int aid=0;
 		try{
-			aid=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),uid);
+			aid=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Integer>(),uid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return aid;
@@ -149,8 +156,10 @@ public class ArticleDao implements ArticleDaoInter{
 		// TODO Auto-generated method stub
 		String sql="update article set viewTimes=? where aid=?";
 		try{
-			runner.execute(ConnectionUtils.getConnection(),sql,aid,orignalViewTimes);
+			System.out.println("orignalViewTimes  "+orignalViewTimes);
+			runner.update(ConnectionUtils.getConnection(),sql,orignalViewTimes,aid);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		
@@ -164,7 +173,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			num=runner.query(ConnectionUtils.getConnection(),sql, new ScalarHandler<Long>(),cid);
 		}catch(Exception e){
-			System.out.println("∏√∑÷¿‡œ¬µƒŒƒ’¬ ˝¡øŒ™¡„");
+			System.out.println(e);
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
@@ -179,6 +188,7 @@ public class ArticleDao implements ArticleDaoInter{
 		try{
 			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),cid,locpage);
 		}catch(Exception e){
+			e.printStackTrace();
 			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;

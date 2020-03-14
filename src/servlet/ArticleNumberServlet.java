@@ -37,7 +37,7 @@ public class ArticleNumberServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		Integer uid=user.getUid();
-		long number=service.getArticleNumber(uid);
+		Long number=service.getArticleNumber(uid);
 		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),number);

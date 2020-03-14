@@ -25,6 +25,7 @@ public class DelArticleDao implements DelArticleDaoInter {
 		int num=0;
 		try{
 			num=runner.update(ConnectionUtils.getConnection(),sql,params);
+//			System.out.println("num "+num);
 		}catch(Exception e){
 			throw new RuntimeException("addRow÷¥––¥ÌŒÛ");
 		}
@@ -38,6 +39,7 @@ public class DelArticleDao implements DelArticleDaoInter {
 		try{
 			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),uid);
 		}catch(Exception e){
+			System.out.println(e);
 			throw new RuntimeException("getDelArticle÷¥––¥ÌŒÛ");
 		}
 		return list;
@@ -71,22 +73,23 @@ public class DelArticleDao implements DelArticleDaoInter {
 		// TODO Auto-generated method stub
 		String sql="delete from delarticle where uid=?";
 		try{
-			runner.execute(ConnectionUtils.getConnection(),sql, uid);
+			runner.execute(ConnectionUtils.getConnection(),sql,uid);
 		}catch(Exception e){
 			throw new RuntimeException("deleteAllRow÷¥––¥ÌŒÛ");
 		}
 	}
 	@Override
-	public Long getNewAid(int uid) {
+	public int getNewAid(int uid) {
 		// TODO Auto-generated method stub
 		String sql="select aid from delArticle where uid=? order by aid DESC limit 1";
-		Long aid=0l;
+		int aid=10;
 		try{
-			aid=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),uid);
+//			System.out.println(ConnectionUtils.getConnection());
+			aid=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Integer>(),uid);
 		}catch(Exception e){
+			System.out.println(e);
 			throw new RuntimeException("getNewAid÷¥––¥ÌŒÛ");
 		}
 		return aid;
 	}
-	
 }

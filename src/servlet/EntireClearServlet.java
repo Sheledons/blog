@@ -9,7 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import service.ArticleService;
+import service.ArticleServiceInter;
 
 import domain.User;
 
@@ -29,7 +34,8 @@ public class EntireClearServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		int uid=user.getUid();
 		service.entireClear(uid);
 	}

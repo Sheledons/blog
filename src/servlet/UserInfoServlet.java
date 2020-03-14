@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.User;
@@ -28,14 +30,14 @@ public class UserInfoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ResultInfo rinfo=new ResultInfo();
+		ResultInfo rinfo=(ResultInfo)BeanFactory.getBean("resultInfo");
 		if(user==null){
 			rinfo.setFlag(false);
 		}else{
 			
 			rinfo.setFlag(true);
 			rinfo.setData(user);}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),rinfo);
 	}

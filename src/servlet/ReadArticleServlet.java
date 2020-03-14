@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 
 import domain.Article;
 import domain.User;
@@ -33,9 +38,10 @@ public class ReadArticleServlet extends HttpServlet {
 		User user=(User)request.getAttribute("user");
 		HttpSession session=request.getSession();
 		Integer aid=(Integer)session.getAttribute("aid");
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		Article art=service.showArticle(aid);
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("appication/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),art);
 	}

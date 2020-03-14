@@ -1,7 +1,7 @@
 package domain;
 
 public class Article {
-	private int aid;
+	private Long aid;
 	private int uid;
 	private String aname;
 	private String time;
@@ -24,11 +24,11 @@ public class Article {
 	public String getAname() {
 		return aname;
 	}
-	public int getAid() {
+	public Long getAid() {
 		return aid;
 	}
-	public void setAid(int aid) {
-		this.aid = aid;
+	public void setAid(Long long1) {
+		this.aid = long1;
 	}
 	public int getUid() {
 		return uid;

@@ -2,26 +2,26 @@ package dao;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import utils.C3p0Utils;
+import utils.ConnectionUtils;
+import utils.DButils;
 
 import domain.Classify;
 
 public class ClassifyDao implements ClassifyDaoInter {
-	private JdbcTemplate temp=new JdbcTemplate(C3p0Utils.getDataSource());
+	private QueryRunner runner=DButils.getRunner();
 	@Override
-	public int getClassifyNumber(int uid) {
+	public Long getClassifyNumber(int uid) {
 		// TODO Auto-generated method stub
 		String sql="select count(*) from classify where uid=?";
-		Integer num;
+		Long num=0l;
 		try{
-			num=temp.queryForObject(sql,Integer.class,uid);
-		}catch(DataAccessException e){
-			num=0;
-			e.printStackTrace();
+			num=runner.query(ConnectionUtils.getConnection(),sql, new ScalarHandler<Long>(),uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
 	}
@@ -32,9 +32,9 @@ public class ClassifyDao implements ClassifyDaoInter {
 		String sql="select * from classify where uid=?";
 		List<Classify> list=null;
 		try{
-			list=temp.query(sql,new BeanPropertyRowMapper<Classify>(Classify.class),uid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Classify>(Classify.class),uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;
 	}
@@ -45,9 +45,9 @@ public class ClassifyDao implements ClassifyDaoInter {
 		int param=4*locpage-4;
 		List<Classify> list=null;
 		try{
-			list=temp.query(sql,new BeanPropertyRowMapper<Classify>(Classify.class),uid,param);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			list=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Classify>(Classify.class),uid,locpage);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;
 	}
@@ -57,9 +57,9 @@ public class ClassifyDao implements ClassifyDaoInter {
 		String sql="insert into classify(cname,cnumber,uid) values(?,0,?)";
 		int flag=0;
 		try{
-			flag=this.temp.update(sql,cname,uid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			flag=runner.update(ConnectionUtils.getConnection(),sql, cname,uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return flag;
 	}
@@ -67,13 +67,13 @@ public class ClassifyDao implements ClassifyDaoInter {
 	@Override
 	public Classify getClassifyByCname(String cname) {
 		String sql="select * from classify where cname=?";
-		Classify c=null;
+		List<Classify> c=null;
 		try{
-			c=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Classify>(Classify.class),cname);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			c=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Classify>(Classify.class),cname);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
-		return c;
+		return c.get(0);
 	}
 
 	@Override
@@ -82,9 +82,9 @@ public class ClassifyDao implements ClassifyDaoInter {
 		String sql="delete from classify where cid=?";
 		int num=0;
 		try{
-			num=this.temp.update(sql,cid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			num=runner.update(ConnectionUtils.getConnection(),sql,cid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
 	}

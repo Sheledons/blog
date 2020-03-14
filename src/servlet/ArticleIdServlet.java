@@ -10,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 
 import domain.Article;
 import domain.ResultInfo;
@@ -34,9 +39,10 @@ public class ArticleIdServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ResultInfo info=new ResultInfo();
+		ResultInfo info=(ResultInfo)BeanFactory.getBean("resultInfo");
 		List<Article> list=null;
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		list=service.getArticleId(user.getUid());
 		if(list==null){
 			info.setFlag(false);
@@ -44,7 +50,7 @@ public class ArticleIdServlet extends HttpServlet {
 			info.setFlag(true);
 			info.setData(list);
 		}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),info);
 	}

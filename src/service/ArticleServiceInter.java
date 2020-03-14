@@ -1,11 +1,13 @@
 package service;
 
 import java.util.List;
+
+import dao.ArticleDao;
 import domain.Article;
 import domain.ResultInfo;
 
 public interface ArticleServiceInter {
-	public int getArticleNumber(int uid);
+	public Long getArticleNumber(int uid);
 
 	public List<Article> getArticleByTimes(int uid);
 
@@ -17,7 +19,7 @@ public interface ArticleServiceInter {
 
 	public Article getArticle(int aid);
 
-	public int createArticle(Article art);
+	public Long createArticle(Article art);
 
 	public Article deleteArticle(int aid, int uid);
 
@@ -30,4 +32,6 @@ public interface ArticleServiceInter {
 	public Article showArticle(int aid);
 
 	public ResultInfo showAppointArticle(int cid,int locpage);
+
+	void setDao(ArticleDao dao);
 }

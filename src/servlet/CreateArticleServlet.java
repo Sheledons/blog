@@ -14,11 +14,16 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.User;
 import domain.Article;
 import service.ArticleService;
+import service.ArticleServiceInter;
 public class CreateArticleServlet extends HttpServlet {
 
 	/**
@@ -35,9 +40,9 @@ public class CreateArticleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		
 		Article art=new Article();
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		Map<String,String[]> map=request.getParameterMap();
 		try {
 			BeanUtils.populate(art,map);
@@ -50,8 +55,8 @@ public class CreateArticleServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int flag=service.createArticle(art);
-		ObjectMapper mapper=new ObjectMapper();
+		long flag=service.createArticle(art);
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),flag);
 	}

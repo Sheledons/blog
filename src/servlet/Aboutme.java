@@ -1,16 +1,21 @@
 package servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import proxy.ArticleServiceProxy;
+import proxy.UserServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 
 import domain.Article;
 
@@ -28,11 +33,12 @@ public class Aboutme extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Article  art;
-		ArticleService service=new ArticleService();
+		Article  art=null;
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		art=service.getArticle(64);
 		response.setContentType("application/json;charset=utf-8");
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		mapper.writeValue(response.getOutputStream(),art);
 	}
 

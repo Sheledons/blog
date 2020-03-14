@@ -1,9 +1,12 @@
 package servlet;
 import service.UserService;
+import service.UserServiceInter;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
+
+import proxy.UserServiceProxy;
+
+import beanFactory.BeanFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,7 +37,6 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println("dopost");
 		User user=new User();
 		Map<String,String[]> map=req.getParameterMap();	
 		try {
@@ -44,9 +50,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		System.out.println("name  "+user.getName());
 		System.out.println("pwd  "+user.getPwd());
-		UserService service=new UserService();
+		UserServiceProxy proxy=(UserServiceProxy)BeanFactory.getBean("userServiceProxy");
+		UserServiceInter service=proxy.getUserService();
 		ResultInfo info=new ResultInfo();
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		User ruser=service.login(user);
 		if(ruser==null){//—È÷§ ß∞‹
 			info.setFlag(false);

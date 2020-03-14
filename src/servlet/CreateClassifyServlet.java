@@ -13,9 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ClassifyService;
+import service.ClassifyServiceInter;
 
 import domain.User;
 
@@ -35,7 +38,7 @@ public class CreateClassifyServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ClassifyService service=new ClassifyService();
+		ClassifyServiceInter service=(ClassifyServiceInter)BeanFactory.getBean("classifyService");
 		ResultInfo info=new ResultInfo();
 		Classify c=null;
 		String cname=request.getParameter("cname");
@@ -46,7 +49,7 @@ public class CreateClassifyServlet extends HttpServlet {
 			c=service.createClassify(cname,user.getUid());
 			info.setData(c);
 		}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),info);
 	}

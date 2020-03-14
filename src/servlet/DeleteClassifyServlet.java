@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ClassifyServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ClassifyService;
+import service.ClassifyServiceInter;
 
 import dao.UserDao;
 import domain.User;
@@ -32,7 +37,8 @@ public class DeleteClassifyServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ClassifyService service=new ClassifyService();
+		ClassifyServiceProxy proxy=(ClassifyServiceProxy)BeanFactory.getBean("classifyServiceProxy");
+		ClassifyServiceInter service=proxy.getClassifyService();
 		boolean flag;
 		int cid=0;
 		try{
@@ -42,7 +48,7 @@ public class DeleteClassifyServlet extends HttpServlet {
 			//≤ª¥¶¿Ì
 			flag=false;
 		}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),flag);
 	}

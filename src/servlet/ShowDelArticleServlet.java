@@ -4,15 +4,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.enterprise.inject.spi.Bean;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 import domain.Article;
 import domain.ResultInfo;
 import domain.User;
@@ -33,8 +39,9 @@ public class ShowDelArticleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ArticleService service=new ArticleService();
-		ResultInfo info=new ResultInfo();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
+		ResultInfo info=(ResultInfo)BeanFactory.getBean("resultInfo");
 		List<Article> list=null;
 		int uid=user.getUid();
 		list=service.getDelArticle(uid);
@@ -44,7 +51,7 @@ public class ShowDelArticleServlet extends HttpServlet {
 			info.setData(list);
 			info.setFlag(true);
 		}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),info);
 	}

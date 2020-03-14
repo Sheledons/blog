@@ -1,5 +1,7 @@
 package servlet;
 import service.ArticleService;
+import service.ArticleServiceInter;
+import service.ClassifyServiceInter;
 import domain.Article;
 import domain.User;
 import java.io.IOException;
@@ -15,6 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import proxy.ArticleServiceProxy;
+import proxy.ClassifyServiceProxy;
+
+import beanFactory.BeanFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,8 +46,10 @@ public class CshowServlet extends HttpServlet {
 		int locpage=Integer.parseInt(request.getParameter("locpage"));
 		List<Classify> listClassify=null;
 		List<Article> listArticle=new ArrayList<Article>();
-		ClassifyService cservice=new ClassifyService();
-		ArticleService aservice=new ArticleService();
+		ClassifyServiceProxy proxy=(ClassifyServiceProxy)BeanFactory.getBean("classifyServiceProxy");
+		ClassifyServiceInter cservice=proxy.getClassifyService();
+		ArticleServiceProxy aproxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter aservice=aproxy.getArticleService();
 		listClassify=cservice.getClassifyLimit(user.getUid(), locpage);
 		if(listClassify!=null){
 			/*遍历list，按classify的顺序将检索到的article放入list集合中*/
@@ -52,7 +61,7 @@ public class CshowServlet extends HttpServlet {
 		List<Object> resultList=new ArrayList<Object>();
 		resultList.add(listClassify);
 		resultList.add(listArticle);
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),resultList);
 	}

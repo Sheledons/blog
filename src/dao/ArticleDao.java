@@ -1,28 +1,37 @@
 package dao;
-
 import java.util.List;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import domain.Article;
-import utils.C3p0Utils;
+import utils.ConnectionUtils;
+import utils.DButils;
 public class ArticleDao implements ArticleDaoInter{
-	private JdbcTemplate temp=new JdbcTemplate(C3p0Utils.getDataSource());
-	@Override
-	public int getNumber(int uid) {
-		int number=0;
-		
+	private QueryRunner runner=DButils.getRunner();
+//    public static void main(String args[]){
+//		Long number=0l;
+//		QueryRunner runner=DButils.getRunner();
+//		String sql="select count(aid) from article where uid=?";
+//		try{
+//			number=(Long)runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),1);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			throw new RuntimeException("sql÷¥–– ß∞‹");
+//		}
+//		System.out.println(number);
+//    }
+	public Long getNumber(int uid){
+		Long number=0l;
 		String sql="select count(aid) from article where uid=?";
 		try{
-			number=this.temp.queryForObject(sql,Integer.class,uid);
-		}
-		catch(DataAccessException e){
+			number=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),uid);
+		}catch(Exception e){
 			e.printStackTrace();
-		}catch(NullPointerException e){
-			
+			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
-		System.out.println("anumber  "+number);
+//		System.out.println("number  "+number);
 		return number;
 	}
 
@@ -32,9 +41,9 @@ public class ArticleDao implements ArticleDaoInter{
 		String sql="select aname,viewTimes from article where uid=? order by viewTimes DESC";
 		List<Article> art=null;
 		try{
-			art=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			art=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return art;
 	}
@@ -46,9 +55,9 @@ public class ArticleDao implements ArticleDaoInter{
 		int param=4*locpage-4;
 		List<Article> art=null;
 		try{
-			art=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid,param);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),uid,param);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return art;
 	}
@@ -57,27 +66,28 @@ public class ArticleDao implements ArticleDaoInter{
 	public Article getArticleNewOne(int cid) {
 		// TODO Auto-generated method stub
 		String sql="select aname,time,viewTimes from article where cid=? order by aid DESC limit 1";
-		Article art=null;
+		List<Article> art=null;
 		try{
-			art=this.temp.queryForObject(sql,new BeanPropertyRowMapper<Article>(Article.class),cid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),cid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥–– ß∞‹");
+			
 		}
-		return art;
+		return art.get(0);
 	}
 
 	@Override
-	public int createArticle(Article art) {
+	public Long createArticle(Article art) {
 		// TODO Auto-generated method stub
-		int aid=art.getAid();
+		Long aid=art.getAid();
 		String sql;
 		sql="insert into article(uid,time,cid,content,viewTimes,aname) values(?,?,?,?,0,?)";
-		int flag=0;
+		Object [] params={art.getAid(),art.getTime(),art.getCid(),art.getContent(),art.getViewTimes(),art.getAname()};
+		Long flag;
 		try{
-//			System.out.println("aname{  "+art.getAname());
-			flag=this.temp.update(sql,art.getUid(),art.getTime(),art.getCid(),art.getContent(),art.getAname());
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			flag=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),params);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
 		return flag;
 	}
@@ -88,9 +98,9 @@ public class ArticleDao implements ArticleDaoInter{
 		String sql="select aname,time,viewTimes,aid from article where uid=? order by aid DESC";
 		List<Article> list=null;
 		try{
-			list=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),uid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;
 	}
@@ -101,9 +111,9 @@ public class ArticleDao implements ArticleDaoInter{
 		String sql="delete from Article where aid=?";
 		int num=0;
 		try{
-			num=this.temp.update(sql,aid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			num=runner.update(ConnectionUtils.getConnection(),sql, aid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
 	}
@@ -112,24 +122,24 @@ public class ArticleDao implements ArticleDaoInter{
 	public Article getArticleByAid(int aid) {
 		// TODO Auto-generated method stub
 		String sql="select article.* ,classify.cname from article inner join classify where article.cid=classify.cid and article.aid=?";
-		Article art=null;
+		List<Article> art=null;
 		try{
-			art=this.temp.queryForObject(sql, new BeanPropertyRowMapper<Article>(Article.class),aid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			art=runner.query(ConnectionUtils.getConnection(),sql,new BeanListHandler<Article>(Article.class),aid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥–– ß∞‹");
 		}
-		return art;
+		return art.get(0);
 	}
 
 	@Override
-	public int getNewAid(int uid) {
+	public Long getNewAid(int uid) {
 		// TODO Auto-generated method stub
 		String sql="select aid from article where uid=? order by aid DESC limit 1";
-		int aid=0;
+		Long aid=0l;
 		try{
-			aid=this.temp.queryForObject(sql,Integer.class,uid);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			aid=runner.query(ConnectionUtils.getConnection(),sql,new ScalarHandler<Long>(),uid);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return aid;
 	}
@@ -138,20 +148,24 @@ public class ArticleDao implements ArticleDaoInter{
 	public void addViewTimes(int aid,int orignalViewTimes) {
 		// TODO Auto-generated method stub
 		String sql="update article set viewTimes=? where aid=?";
-		this.temp.update(sql,orignalViewTimes+1,aid);
+		try{
+			runner.execute(ConnectionUtils.getConnection(),sql,aid,orignalViewTimes);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
+		}
+		
 	}
 
 	@Override
-	public int getAppointArticleNumber(int cid) {
+	public Long getAppointArticleNumber(int cid) {
 		// TODO Auto-generated method stub
 		String sql="select count(*) from article where cid=?";
-		int num=0;
+		Long num=0l;
 		try{
-			num=this.temp.queryForObject(sql,Integer.class,cid);
-			System.out.println("num:   "+num);
-		}catch(DataAccessException e){
+			num=runner.query(ConnectionUtils.getConnection(),sql, new ScalarHandler<Long>(),cid);
+		}catch(Exception e){
 			System.out.println("∏√∑÷¿‡œ¬µƒŒƒ’¬ ˝¡øŒ™¡„");
-			e.printStackTrace();
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return num;
 	}
@@ -163,9 +177,9 @@ public class ArticleDao implements ArticleDaoInter{
 		int param=4*locpage-4;
 		List<Article> list=null;
 		try{
-			list=this.temp.query(sql,new BeanPropertyRowMapper<Article>(Article.class),cid,param);
-		}catch(DataAccessException e){
-			e.printStackTrace();
+			list=runner.query(ConnectionUtils.getConnection(),sql, new BeanListHandler<Article>(Article.class),cid,locpage);
+		}catch(Exception e){
+			throw new RuntimeException("sql÷¥––¥ÌŒÛ");
 		}
 		return list;
 	}

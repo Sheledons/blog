@@ -2,12 +2,17 @@ package service;
 
 import java.util.List;
 
+import beanFactory.BeanFactory;
+
 import domain.Classify;
 import dao.ClassifyDao;
 public class ClassifyService implements ClassifyServiceInter {
-	private ClassifyDao dao=new ClassifyDao();
+	private ClassifyDao dao;
+	public void setDao(ClassifyDao dao) {
+		this.dao = dao;
+	}
 	@Override
-	public int getClassifyNumber(int uid) {
+	public Long getClassifyNumber(int uid) {
 		// TODO Auto-generated method stub
 		
 		return this.dao.getClassifyNumber(uid);

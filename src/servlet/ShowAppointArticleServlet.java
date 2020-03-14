@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 
 import domain.ResultInfo;
 import domain.User;
@@ -34,7 +39,8 @@ public class ShowAppointArticleServlet extends HttpServlet {
 		response.setContentType("text/html");
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		ResultInfo info=null;
 		try{
 			int locpage=Integer.parseInt(request.getParameter("locpage"));
@@ -44,7 +50,7 @@ public class ShowAppointArticleServlet extends HttpServlet {
 			
 		}
 		response.setContentType("application/json;charset=utf-8");
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		mapper.writeValue(response.getOutputStream(),info);
 	}
 

@@ -1,6 +1,8 @@
 package servlet;
 import java.util.List;
 import service.ClassifyService;
+import service.ClassifyServiceInter;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import domain.User;
@@ -9,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import proxy.ClassifyServiceProxy;
+
+import beanFactory.BeanFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,9 +36,10 @@ public class CdetailServlet extends HttpServlet {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		List<Classify> list=null;
-		ClassifyService service=new ClassifyService();
+		ClassifyServiceProxy proxy=(ClassifyServiceProxy)BeanFactory.getBean("classifyServiceProxy");
+		ClassifyServiceInter service=proxy.getClassifyService();
 		list=service.getClassify(user.getUid());
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),list);
 	}

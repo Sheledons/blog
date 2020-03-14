@@ -12,10 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ArticleServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import service.ArticleService;
+import service.ArticleServiceInter;
 public class ArticleByTimesServlet extends HttpServlet {
 
 	/**
@@ -30,19 +35,20 @@ public class ArticleByTimesServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ArticleService service=new ArticleService();
+		ArticleServiceProxy proxy=(ArticleServiceProxy)BeanFactory.getBean("articleServiceProxy");
+		ArticleServiceInter service=proxy.getArticleService();
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
 		Integer uid=user.getUid();
 		List<Article> list=service.getArticleByTimes(uid);
-		ResultInfo info=new ResultInfo();
+		ResultInfo info=(ResultInfo)BeanFactory.getBean("resultInfo");
 		if(list==null){
 			info.setFlag(false);
 		}else{
 			info.setData(list);
 			info.setFlag(true);
 		}
-		ObjectMapper mapper=new ObjectMapper();
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),info);
 	}

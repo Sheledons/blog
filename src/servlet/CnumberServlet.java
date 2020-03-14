@@ -9,11 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import proxy.ClassifyServiceProxy;
+
+import beanFactory.BeanFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domain.User;
 
 import service.ClassifyService;
+import service.ClassifyServiceInter;
 
 public class CnumberServlet extends HttpServlet {
 
@@ -31,9 +36,10 @@ public class CnumberServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		User user=(User)session.getAttribute("user");
-		ClassifyService service=new ClassifyService();
-		int num=service.getClassifyNumber(user.getUid());
-		ObjectMapper mapper=new ObjectMapper();
+		ClassifyServiceProxy proxy=(ClassifyServiceProxy)BeanFactory.getBean("classifyServiceProxy");
+		ClassifyServiceInter service=proxy.getClassifyService();
+		long num=service.getClassifyNumber(user.getUid());
+		ObjectMapper mapper=(ObjectMapper)BeanFactory.getBean("objectMapper");
 		response.setContentType("application/json;charset=utf-8");
 		mapper.writeValue(response.getOutputStream(),num);
 	}

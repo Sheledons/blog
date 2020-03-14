@@ -3,15 +3,20 @@ import dao.DelArticleDao;
 
 import java.util.Date;
 import java.util.List;
+
+import beanFactory.BeanFactory;
 import dao.ArticleDao;
 import domain.Article;
 import domain.ResultInfo;
 public class ArticleService implements ArticleServiceInter{
-	private ArticleDao dao=new ArticleDao();
+	private ArticleDao dao;
 	@Override
-	public int getArticleNumber(int uid) {
+	public void setDao(ArticleDao dao) {
+		this.dao = dao;
+	}
+	public Long getArticleNumber(int uid) {
 		
-		int number=this.dao.getNumber(uid);
+		Long number=this.dao.getNumber(uid);
 		return number;
 	}
 
@@ -23,16 +28,19 @@ public class ArticleService implements ArticleServiceInter{
 
 	@Override
 	public List<Article> getArticleByCreate(int uid,int locpage) {
+		
 		return this.dao.getArticleByCreate(uid,locpage);
 	}
 
 	@Override
 	public Article getArticleOne(int cid) {
+		
 		return this.dao.getArticleNewOne(cid);
 	}
 
 	@Override
-	public int createArticle(Article art) {
+	public Long createArticle(Article art) {
+		
 		Date date=new Date();
 		int year=date.getYear()+1900;
 		int month=date.getMonth()+1;
@@ -58,7 +66,7 @@ public class ArticleService implements ArticleServiceInter{
 			if(num!=0){
 				DelArticleDao ddao=new DelArticleDao();
 				ddao.addRow(art);
-				int daid=ddao.getNewAid(uid);
+				Long daid=ddao.getNewAid(uid);
 				art.setAid(daid);
 //				rart=ddao.getDelArticleOne(daid);
 //				rart.setContent(null);
@@ -116,7 +124,7 @@ public class ArticleService implements ArticleServiceInter{
 	public ResultInfo showAppointArticle(int cid,int locpage) {
 		// TODO Auto-generated method stub
 		ResultInfo info=new ResultInfo();
-		int num=this.dao.getAppointArticleNumber(cid);
+		Long num=this.dao.getAppointArticleNumber(cid);
 		info.setNum(num);
 		List<Article> list=this.dao.getArticleByCid(cid,locpage);
 		info.setData(list);

@@ -5,15 +5,22 @@
 	<title>classifyPage</title>
 	<script src="lib/js/jquery-3.4.1.js"></script>
 	<style type="text/css">
-		div{
-			vertical-align: top;
+		body{
+	background-image: url(img/index4.jpg) ;
+	background-repeat: repeat;
+	background-attachment: fixed;
+	
+	}
+		.main{
+		    position: relative;
+		    width: 1756px;
 		}
 		.leftList{
-			display: inline-block;
-		    margin-left: 300px;
-		    margin-right: 250px;
+		    position: absolute;
+		    left:461px;
+
 		    width: 300px;
-		    /*border: red 2px solid;*/
+		    /* border: red 2px solid; */
 		}
 		.headImage{
 			display: block;
@@ -56,13 +63,12 @@
 			color: white;
 		}
 		.rightList{
-			width: 700px;
-	/*		height: 500px;*/
-	/*		border: 2px red solid;*/
-			margin-top: 20px;
-			margin-right:200px;
-			display: inline-block;
-			background-color: white;
+		    position: absolute;
+		    width: 700px;
+		    top: 20px;
+		    right: 28px;
+		    display: inline-block;
+		    background-color: white;
 		}
 		.summaryName>div{
 			margin-left: 22px;
@@ -128,6 +134,7 @@
     </style>
 </head>
 <body style="background-color:#DCDCDC">
+	<div class="main">
 	<div class="leftList">
 			<div>
 				<h3 style="color:#4682B4;text-align: center;margin-bottom: 5px">Change Word</h3>
@@ -277,5 +284,6 @@
 	 	*/
 	 </script>
 	 <!-- <span></span> -->
+	</div>
 </body>
 </html>

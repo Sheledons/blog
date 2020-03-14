@@ -5,13 +5,20 @@
 	<title>mainPage</title>
 	<script src="lib/js/jquery-3.4.1.js"></script>
 	<style type="text/css">
-		div{
-			vertical-align: top;
+	body{
+	background-image: url(img/index3.jpg) ;
+	background-repeat: no-repeat;
+	background-size :100% 100%;
+	background-attachment: fixed;
+	}
+		.main{
+		    position: relative;
+		    width: 1867px;
 		}
 		.leftList{
-			display: inline-block;
-		    margin-left: 350px;
-		    margin-right: 100px;
+		    position: absolute;
+		    left: 350px;
+		    right: 100px;
 		    width: 400px;
 		}
 		.headImage{
@@ -49,11 +56,12 @@
 			padding-top: 5px;
 			background-color:#F5F5F5;
 			width: 250px;
+			    border-radius: 20px;
 		}
 		.title{
 			text-align: center;
 			color: white;
-			background-color:#4682B4;
+			background-color:#e74c3c;
 			padding-top:  15px;
 			padding-bottom: 15px;
 			padding-left: 30px;
@@ -75,6 +83,8 @@
 			color: black;
 			width: 200px;
 			border: 2px ;
+			border-radius: 15px;
+    		margin-top: 15px;
 		}
 		.label>span{
 			color: #1E90FF;
@@ -85,16 +95,14 @@
 	</style>
 	<style type="text/css">
 		.rightList{
-			width: 600px;
-/*			height: 500px;*/
-/*			border: 2px red solid;*/
-			margin-top: 20px;
-			margin-right:350px;
-			display: inline-block;
-			background-color: white;
+		    width: 600px;
+		    right: 242px;
+		    position: absolute;
+		    background-color: white;
+		    top: 300px;
 		}
 		.rightTitle{
-			background-color: #1E90FF;
+			background-color: #e74c3c;
 			text-align: center;
 			width: 600px;
 			height: 40px;
@@ -103,7 +111,7 @@
 		}
 		.articleTitle{
 			width: 600px;
-			color: #1E90FF;
+			color: #e74c3c;
 			font-size: 25px;
 
 		}
@@ -115,7 +123,7 @@
 			padding-top: 20px;
 		}
 		.rightList a{
-			color:  #1E90FF;
+			color:   #e74c3c;
 			text-decoration: none;
 		}
 		.rightContent{
@@ -129,11 +137,11 @@
 		.pageNum>a{
 			margin-top: 20px;
 			margin-right: 10px;
-			background-color: #4682B4;
+			background-color: #1dd1a1;
 			display: inline-block;
 			width: 30px;
 			text-align: center;
-			border: 2px solid #4682B4;
+			border: 2px solid #1dd1a1;
 			text-decoration: none;
 		}
 		.signOut{
@@ -143,9 +151,10 @@
 	</style>
 </head>
 <body style="background-color:#DCDCDC">
+	<div class="main">
 	<div class="leftList">
 		<div>
-			<h3 style="color:#4682B4;text-align: center;margin-bottom: 5px">Change World</h3>
+			<h3 style="color:#4682B4;text-align: center;margin-bottom: 5px">Change The World</h3>
 			<h5 style="text-align: center;color:#C0C0C0">落日归山海，陪伴成告白</h5>
 			<img src="" class="headImage">
 			<div class="name">
@@ -163,7 +172,7 @@
 			</script>
 			<div class="summaryNumber">
 				<div>
-					<div id="anumber" style="text-align: center;"></div>
+					<div id="anumber" style="text-align: center;">0</div>
 					<div >日志</div>
 					<script type="text/javascript">
 						$.get("articleNumberServlet",function(number){
@@ -318,5 +327,7 @@
 		})		
 		}
 	</script>
+</div>
+</div>
 </body>
 </html>

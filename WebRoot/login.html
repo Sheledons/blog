@@ -3,8 +3,81 @@
 <head>
   <title>sheledonBlog</title>
   <meta charset="utf-8">  
+  <style type="text/css">
+  @CHARSET "UTF-8";
+	body{
+			background-image: url(img/tlam.jfif) ;
+			/*background-repeat: no-repeat;*/
+			font-family: sans-serif;
+			
+	}
+		.main{
+			height: 300px;
+			width: 300px;
+			position: absolute;
+			left: 50%;
+			margin-left: -150px;
+			top: 50%;
+			margin-top: -150px;
+		}
+		.main h1{
+			color: white;
+			text-align: center;
+			margin-top: 50px;
+		}
+		.main input{
+     text-align: center;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    border-color: #c0392b;
+    border-radius: 20px;
+    border-width: 3px;
+    height: 35px;
+    width: 170px;
+    background-color: black;
+    background: none;
+    outline: none;
+    color: #2ecc71;
+		}
+.submit{
+    background-color: rgba(0,0,0,0.5);
+    width: 150px;
+    display: block;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 25px;
+    border: 2px solid #2ecc71;
+    height: 39px;
+    border-radius: 15px;
+}
+.main input:hover{
+	width: 210px;
+}
+.submit:hover{
+width:200px;
+
+}
+a{
+	text-align: center;
+	display: block;
+	text-decoration: none;
+	color: #1E90FF;
+}
+.error-msgName,.error-msgPwd{
+	width: 130px;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 10px;
+	color: red;
+}
+  </style>
   <script src="lib/js/jquery-3.4.1.js"></script>
-  <link rel="stylesheet" type="text/css" href="css/login.css">
+  
   <script type="text/javascript">
     var checkInputName=function(){
       if($("#name").val()==""){
@@ -53,7 +126,7 @@
 </head>
 <body>
   <div class="main">
-    <h1 style="color:#1E90FF;font-family:">Change World</h1>
+    <h1 style="color:white;font-family:">Change The World</h1>
     <form action="" class="loginInfo" method="post">
       <input type="text" name="name" placeholder="请输入用户名" id="name">
       <input type="password" name="pwd" placeholder="请输入密码" id="pwd"> 
@@ -65,7 +138,6 @@
       $("#name").blur(checkInputName);
       $("#pwd").blur(checkInputPwd);
     </script>
-    <a href="javascript:;">访客登录</a>
   </div>
 </body>
 </html>
